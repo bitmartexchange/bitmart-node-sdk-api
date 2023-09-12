@@ -5,3 +5,4 @@ coverage
 report.json
 .vscode
 logs
+.idea

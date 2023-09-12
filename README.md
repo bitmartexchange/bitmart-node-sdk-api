@@ -60,12 +60,12 @@ bitmartSpotAPI.getSymbols()
 
 
 // Get Ticker of All Pairs 
-bitmartSpotAPI.getTicker()
+bitmartSpotAPI.getV3Tickers()
   .then(response => bitmartSpotAPI.logger.log(response.data))
   .catch(error => bitmartSpotAPI.logger.log(error))
 
 // Get Ticker of a Trading Pair
-bitmartSpotAPI.getTickerDetail('BTC_USDT')
+bitmartSpotAPI.getV3Ticker('BTC_USDT')
   .then(response => bitmartSpotAPI.logger.log(response.data))
   .catch(error => bitmartSpotAPI.logger.log(error))
 
@@ -306,5 +306,70 @@ bitmartSpotAPI.getTickerDetail('BTC_USDT')
 ```
 
 
-## License
-MIT
+Extra Options
+=========================
+
+### Authentication
+How to set API KEY?
+
+```javascript
+const Bitmart = require('@bitmartexchange/bitmart-node-sdk-api')
+const bitmartSpotAPI = new Bitmart.BitmartSpotAPI({
+    apiKey: 'your api key',
+    apiSecret: 'your secret key',
+    apiMemo: 'your api memo',
+})
+```
+
+### Timeout
+Set HTTP `connection timeout` and `read timeout`. 
+
+```javascript
+const Bitmart = require('@bitmartexchange/bitmart-node-sdk-api')
+const bitmartSpotAPI = new Bitmart.BitmartSpotAPI({
+    timeout: 2000 // Milliseconds, the default value is 5000, which means 5 seconds
+})
+
+bitmartSpotAPI.getV3Tickers()
+  .then(response => bitmartSpotAPI.logger.log(response.data))
+  .catch(error => bitmartSpotAPI.logger.log(error))
+```
+
+### Logging
+The default logger defined in the package is Node.js Console class. Its output is sent to process.stdout and process.stderr, same as the global console.
+
+
+```javascript
+const Bitmart = require('@bitmartexchange/bitmart-node-sdk-api')
+const fs = require('fs')
+const { Console } = require('console')
+
+// make sure the logs/ folder is created beforehand
+const output = fs.createWriteStream('./logs/stdout.log')
+const errorOutput = fs.createWriteStream('./logs/stderr.log')
+const logger = new Console({ stdout: output, stderr: errorOutput })
+
+const bitmartSpotAPI = new Bitmart.BitmartSpotAPI({
+    logger: logger
+})
+
+bitmartSpotAPI.getV3Tickers()
+  .then(response => bitmartSpotAPI.logger.log(response.data))
+  .catch(error => bitmartSpotAPI.logger.log(error))
+```
+
+### Domain
+How to set API domain name? The domain name parameter is optional,
+the default domain name is `https://api-cloud.bitmart.com`.
+
+
+```javascript
+const Bitmart = require('@bitmartexchange/bitmart-node-sdk-api')
+const bitmartSpotAPI = new Bitmart.BitmartSpotAPI({
+    baseURL: 'https://api-cloud.bitmart.com'
+})
+
+bitmartSpotAPI.getV3Tickers()
+  .then(response => bitmartSpotAPI.logger.log(response.data))
+  .catch(error => bitmartSpotAPI.logger.log(error))
+```

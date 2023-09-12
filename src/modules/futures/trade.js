@@ -165,6 +165,26 @@ const FuturesTrade = superclass => class extends superclass {
         }))
     }
 
+    /**
+     * Submit Leverage (SIGNED)
+     * {@link https://developer-pro.bitmart.com/en/futures/#submit-leverage-signed}
+     * 
+     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param {String} openType - Open type, required at close position
+                                    -cross     <br>
+                                    -isolated  <br>
+     * @param {String} options.leverage - Order leverage
+     * @returns {JSON} Object
+     */
+    submitLeverage(symbol, openType, options = {}) {
+        validateRequiredParameters({ symbol, openType })
+
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/submit-leverage', Object.assign(options, {
+            symbol: symbol,
+            open_type: openType
+        }))
+    }
+
 
 
     /**

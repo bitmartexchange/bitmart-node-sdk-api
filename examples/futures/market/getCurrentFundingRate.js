@@ -1,9 +1,9 @@
 'use strict'
 
-const BitmartFuturesAPI = require('../../../src/bitmartFuturesAPI')
+const BitMart = require('../../../src')
 
 
-const bitmartFuturesAPI = new BitmartFuturesAPI()
+const bitmartFuturesAPI = new BitMart.BitmartFuturesAPI()
 
 
 bitmartFuturesAPI.getCurrentFundingRate('BTCUSDT')

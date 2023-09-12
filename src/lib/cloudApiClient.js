@@ -45,6 +45,7 @@ class CloudApiClient {
     }
 
     return createRequest({
+      logger: this.logger,
       method,
       baseURL: this.baseURL,
       url: path,
