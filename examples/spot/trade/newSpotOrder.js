@@ -12,7 +12,7 @@ const bitmartSpotAPI = new BitmartSpotAPI({
     apiMemo: yourApiMemo,
 })
 
-bitmartSpotAPI.newOrder('BTC_USDT', 'sell', 'limit', {
+bitmartSpotAPI.newSpotOrder('BTC_USDT', 'sell', 'limit', {
     client_order_id: 'xxxx1121212',
     size: 10000,
     price: "500000"
