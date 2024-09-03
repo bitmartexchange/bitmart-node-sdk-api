@@ -373,3 +373,19 @@ bitmartSpotAPI.getV3Tickers()
   .then(response => bitmartSpotAPI.logger.log(response.data))
   .catch(error => bitmartSpotAPI.logger.log(error))
 ```
+
+### Custom request headers
+You can add your own request header information here, 
+but please do not fill in `X-BM-KEY, X-BM-SIGN, X-BM-TIMESTAMP`
+
+
+```javascript
+const Bitmart = require('@bitmartexchange/bitmart-node-sdk-api')
+const bitmartSpotAPI = new Bitmart.BitmartSpotAPI({
+    headers: {'Your-Custom-Header':'xxxxxxxxxx'}
+})
+
+bitmartSpotAPI.getV3Tickers()
+  .then(response => bitmartSpotAPI.logger.log(response.data))
+  .catch(error => bitmartSpotAPI.logger.log(error))
+```

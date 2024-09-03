@@ -48,8 +48,7 @@ const getRequestInstance = (config) => {
 
 const createRequest = (config) => {
   const { logger, baseURL, method, url, headers, timeout, data } = config
-  logger.info("url:" + baseURL + url)
-  logger.info('data:' + data)
+  logger.info(`url: ${baseURL + url}\nresponse: ${data}`);
   if(method === 'GET') {
     return getRequestInstance({
       baseURL,
