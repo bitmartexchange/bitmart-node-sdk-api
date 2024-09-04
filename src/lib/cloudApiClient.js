@@ -7,7 +7,7 @@ const constants = require('../lib/constants')
 
 class CloudApiClient {
   constructor (options) {
-    const { apiKey, apiSecret, apiMemo, baseURL, logger, timeout, headers } = options
+    const { apiKey, apiSecret, apiMemo, baseURL, logger, timeout, headers = {} } = options
 
     this.apiKey = apiKey
     this.apiSecret = apiSecret

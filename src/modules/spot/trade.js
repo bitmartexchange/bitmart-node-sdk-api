@@ -19,7 +19,7 @@ const Trade = superclass => class extends superclass {
      * @param {String} symbol - Trading pair (e.g. BTC_USDT)
      * @param {String} side - Side (buy/sell)
      * @param {String} type - Order type (limit/market/limit_makers/ioc)
-     * @param {String} options.clientOrderId - Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+     * @param {String} options.client_order_id - Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
      * @param {String} options.size : Order size
      * @param {String} options.price : Order Price | Quantity sold, required when selling at market price size
      * @param {String} options.notional : Quantity bought, required when buying at market price notional
@@ -41,22 +41,27 @@ const Trade = superclass => class extends superclass {
     }
 
     /**
-     * New Batch Order(v2) (SIGNED) <br>
-     * POST /spot/v2/batch_orders <br>
+     * New Batch Order(v4) (SIGNED) <br>
+     * POST /spot/v4/batch_orders <br>
      * 
-     * {@link https://developer-pro.bitmart.com/en/spot/#new-batch-order-v2-signed}
-     * 
-     * @param {Object} params - Order parameters, the number of transactions cannot exceed 10
+     * {@link https://developer-pro.bitmart.com/en/spot/#new-batch-order-v4-signed}
+     *
+     * @param {String} symbol - Trading pair (e.g. BTC_USDT)
+     * @param {Number} recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @param {List} orderParams - Order parameters, the number of transactions cannot exceed 10
      * @returns {JSON} Object 
      */
-    newBatchSpotOrder(params = {}) {
-        validateRequiredParameters({ params })
+    v4NewBatchSpotOrder(symbol, orderParams = [], options = {}) {
+        validateRequiredParameters({ symbol, orderParams })
 
         return this.request(
             Auth.SIGNED,
             'POST',
-            '/spot/v2/batch_orders',
-            Object.assign(params)
+            '/spot/v4/batch_orders',
+            Object.assign(options, {
+                symbol: symbol,
+                orderParams: orderParams
+            })
         )
     }
 
@@ -115,23 +120,49 @@ const Trade = superclass => class extends superclass {
     }
 
     /**
-     * Cancel Batch Order(v1) (SIGNED) <br>
-     * POST /spot/v1/cancel_orders
+     * Cancel Batch Order(v4) (SIGNED) <br>
+     * POST /spot/v4/cancel_orders
      * 
-     * {@link https://developer-pro.bitmart.com/en/spot/#cancel-batch-order-v1-signed}
+     * {@link https://developer-pro.bitmart.com/en/spot/#cancel-batch-order-v4-signed}
      * 
-     * @param {String} options.symbol - Trading pair (e.g. BTC_USDT)
-     * @param {String} options.side - Order side (buy/sell)
+     * @param {String} symbol - Trading pair (e.g. BTC_USDT)
+     * @param {String} options.orderIds - Order Id List (Either orderIds or clientOrderIds must be provided)
+     * @param {String} options.clientOrderIds - Client-defined OrderId List (Either orderIds or clientOrderIds must be provided)
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @returns {JSON} Object
      */
-    cancelBatchOrder(options = {}) {
+    v4CancelBatchOrder(symbol, options = {}) {
+        validateRequiredParameters({ symbol })
+
         return this.request(
             Auth.SIGNED,
             'POST',
-            '/spot/v1/cancel_orders',
+            '/spot/v4/cancel_orders',
+            Object.assign(options, {
+                symbol: symbol
+            })
+        )
+    }
+
+     /**
+     * Cancel All Order(v4) (SIGNED) <br>
+     * POST /spot/v4/cancel_all
+     * 
+     * {@link https://developer-pro.bitmart.com/en/spot/#cancel-all-order-v4-signed}
+     * 
+     * @param {String} options.symbol - Trading pair (e.g. BTC_USDT)
+     * @param {String} options.side - Order side (buy or sell)
+     * @returns {JSON} Object
+     */
+     v4CancelAllOrder(options = {}) {
+        return this.request(
+            Auth.SIGNED,
+            'POST',
+            '/spot/v4/cancel_all',
             Object.assign(options)
         )
     }
+
 
     /**
      * Query Order By Id (v4) (SIGNED) <br>
@@ -141,7 +172,7 @@ const Trade = superclass => class extends superclass {
      * 
      * @param {String} orderId - Order id
      * @param {String} options.queryState - Query Type (open/history)
-     * @param {Long} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @returns {JOSN} Object
      */
     queryOrderById(orderId, options = {}) {
@@ -164,7 +195,7 @@ const Trade = superclass => class extends superclass {
      * {@link https://developer-pro.bitmart.com/en/spot/#query-order-by-clientorderid-v4-signed}
      * @param {String} clientOrderId - User-defined order id
      * @param {String} options.queryState - Query Type (open/history)
-     * @param {Long} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @returns {JOSN} Object
      */
     queryOrderByClientOrderId(clientOrderId, options = {}) {
@@ -188,10 +219,10 @@ const Trade = superclass => class extends superclass {
      * 
      * @param {String} options.symbol - Trading pair (e.g. BTC_USDT)
      * @param {String} options.orderMode - Order mode (spot/iso_margin)
-     * @param {String} options.startTime - Start time in milliseconds, (e.g. 1681701557927)
-     * @param {String} options.endTime - End time in milliseconds, (e.g. 1681701557927)
-     * @param {String} options.limit - Number of queries, allowed range [1,200], default 200
-     * @param {String} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @param {Number} options.startTime - Start time in milliseconds, (e.g. 1681701557927)
+     * @param {Number} options.endTime - End time in milliseconds, (e.g. 1681701557927)
+     * @param {Number} options.limit - Number of queries, allowed range [1,200], default 200
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @returns {JOSN} Object
      */
     queryCurrentOpenOrder(options = {}) {
@@ -211,10 +242,10 @@ const Trade = superclass => class extends superclass {
      * 
      * @param {String} options.symbol - Trading pair (e.g. BTC_USDT)
      * @param {String} options.orderMode - Order mode (spot/iso_margin)
-     * @param {String} options.startTime - Start time in milliseconds, (e.g. 1681701557927)
-     * @param {String} options.endTime - End time in milliseconds, (e.g. 1681701557927)
-     * @param {String} options.limit - Number of queries, allowed range [1,200], default 200
-     * @param {String} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @param {Number} options.startTime - Start time in milliseconds, (e.g. 1681701557927)
+     * @param {Number} options.endTime - End time in milliseconds, (e.g. 1681701557927)
+     * @param {Number} options.limit - Number of queries, allowed range [1,200], default 200
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @returns {JOSN} Object
      */
     queryAccountOrders(options = {}) {
@@ -234,10 +265,10 @@ const Trade = superclass => class extends superclass {
      * 
      * @param {String} options.symbol - Trading pair (e.g. BTC_USDT)
      * @param {String} options.orderMode - Order mode (spot/iso_margin)
-     * @param {String} options.startTime - Start time in milliseconds, (e.g. 1681701557927)
-     * @param {String} options.endTime - End time in milliseconds, (e.g. 1681701557927)
-     * @param {String} options.limit - Number of queries, allowed range [1,200], default 200
-     * @param {String} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @param {Number} options.startTime - Start time in milliseconds, (e.g. 1681701557927)
+     * @param {Number} options.endTime - End time in milliseconds, (e.g. 1681701557927)
+     * @param {Number} options.limit - Number of queries, allowed range [1,200], default 200
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @returns {JOSN} Object
      */
     queryAccountTrades(options = {}) {
@@ -256,7 +287,7 @@ const Trade = superclass => class extends superclass {
      * {@link https://developer-pro.bitmart.com/en/spot/#order-trade-list-v4-signed}
      * 
      * @param {String} orderId - Order id
-     * @param {Long} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @returns {JOSN} Object
      */
     queryOrderTrades(orderId, options = {}) {

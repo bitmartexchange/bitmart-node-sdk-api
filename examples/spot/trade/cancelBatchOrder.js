@@ -13,9 +13,11 @@ const bitmartSpotAPI = new BitmartSpotAPI({
 })
 
 
-bitmartSpotAPI.cancelBatchOrder({
-    symbol: 'BTC_USDT',
-    side: 'buy'
+
+bitmartSpotAPI.v4CancelBatchOrder('BTC_USDT', {
+    recvWindow: 6000,
+    orderIds: ["5e925f3981", "5e925f3981"],
+    clientOrderIds: [],
 }).then(response => bitmartSpotAPI.logger.log(response.data))
     .catch(error => {
         if (error.response) {

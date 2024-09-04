@@ -71,9 +71,9 @@ const Margin = superclass => class extends superclass {
      * 
      * @param {String} symbol - Trading pair (e.g. BMX_USDT)
      * @param {String} options.borrow_id - Borrow order id
-     * @param {Long} options.start_time - Query start time: Timestamp
-     * @param {Long} options.end_time - Query end time: Timestamp
-     * @param {Int} options.N - Query record size, allowed range[1-100]. Default is 50
+     * @param {Number} options.start_time - Query start time: Timestamp
+     * @param {Number} options.end_time - Query end time: Timestamp
+     * @param {Number} options.N - Query record size, allowed range[1-100]. Default is 50
      * @returns {JSON} Object
      */
     getIsolatedBorrowRecord(symbol, options = {}) {
@@ -100,9 +100,9 @@ const Margin = superclass => class extends superclass {
      * @param {String} symbol - Trading pair (e.g. BMX_USDT)
      * @param {String} options.repay_id	- Repayment ID
      * @param {String} options.currency	- Currency
-     * @param {Long} options.start_time - Query start time: Timestamp
-     * @param {Long} options.end_time	- Query end time: Timestamp
-     * @param {Int} options.N	- Query record size, allowed range[1-100]. Default is 50
+     * @param {Number} options.start_time - Query start time: Timestamp
+     * @param {Number} options.end_time	- Query end time: Timestamp
+     * @param {Number} options.N	- Query record size, allowed range[1-100]. Default is 50
      * @returns {JSON} Object
      */
     getIsolatedReplyRecord(symbol, options = {}) {

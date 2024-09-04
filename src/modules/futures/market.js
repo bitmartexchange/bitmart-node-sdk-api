@@ -84,9 +84,9 @@ const FuturesMarket = superclass => class extends superclass {
      * {@link https://developer-pro.bitmart.com/en/futures/#get-k-line}
      * 
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
-     * @param {Long} startTime - Start time. Timestamps need to be in seconds
-     * @param {Long} endTime - End time. Timestamps need to be in seconds
-     * @param {Int} options.step - K-Line step, default is 1 minute. step: 1, 3, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080
+     * @param {Number} startTime - Start time. Timestamps need to be in seconds
+     * @param {Number} endTime - End time. Timestamps need to be in seconds
+     * @param {Number} options.step - K-Line step, default is 1 minute. step: 1, 3, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080
      * @returns {JSON}
      */
     getKline(symbol, startTime, endTime, options = {}) {

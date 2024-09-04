@@ -28,5 +28,5 @@ const bitmartSpotWebsocket = new BitmartSpotWebsocket(
     apiMemo: yourApiMemo
 })
 
-// disconnect after 20 seconds
-setTimeout(() => bitmartSpotWebsocket.disconnect(), 20000)
+// If it is a test, you can turn on active shutdown, disconnect after 20 seconds
+// setTimeout(() => bitmartSpotWebsocket.disconnect(), 20000)

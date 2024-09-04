@@ -3,6 +3,7 @@
 BitMart-Node-SDK-API
 =========================
 
+[![npm package](https://badge.fury.io/js/%40bitmartexchange%2Fbitmart-node-sdk-api.svg)](https://badge.fury.io/js/%40bitmartexchange%2Fbitmart-node-sdk-api)
 [![Node version](https://img.shields.io/badge/node-%3E=12.22.12-green)](http://nodejs.org/download/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -80,7 +81,7 @@ const bitmartSpotAPI = new Bitmart.BitmartSpotAPI({
     apiMemo: 'your api memo',
 })
 
-bitmartSpotAPI.newOrder('BTC_USDT', 'sell', 'limit', {
+bitmartSpotAPI.newSpotOrder('BTC_USDT', 'sell', 'limit', {
     size: 10000,
     price: "500000"
 }).then(response => bitmartSpotAPI.logger.log(response.data))
@@ -119,7 +120,9 @@ const callbacks = {
     client.send('{"op": "subscribe", "args": ["spot/trade:BTC_USDT"]}')
 
   },
-  close: () => console.info('...Disconnected with Websocket server'),
+  close: () => console.info('...Disconnected with server'),
+  pong: () => console.info('recv:pong from server'),
+  ping: () => console.info('recv:ping from server'),
   message: data => console.info('recv:' + data)
 }
 
@@ -144,6 +147,8 @@ const callbacks = {
 
   },
   close: () => console.info('...Disconnected with Websocket server'),
+  pong: () => console.info('recv:pong from server'),
+  ping: () => console.info('recv:ping from server'),
   message: data => console.info('recv:' + data)
 }
 
@@ -238,6 +243,8 @@ const callbacks = {
 
   },
   close: () => console.info('...Disconnected with Websocket server'),
+  pong: () => console.info('recv:pong from server'),
+  ping: () => console.info('recv:ping from server'),
   message: data => console.info('recv:' + data)
 }
 
@@ -269,6 +276,8 @@ const callbacks = {
 
   },
   close: () => console.info('...Disconnected with Websocket server'),
+  pong: () => console.info('recv:pong from server'),
+  ping: () => console.info('recv:ping from server'),
   message: data => console.info('recv:' + data)
 }
 
@@ -387,5 +396,36 @@ const bitmartSpotAPI = new Bitmart.BitmartSpotAPI({
 
 bitmartSpotAPI.getV3Tickers()
   .then(response => bitmartSpotAPI.logger.log(response.data))
+  .catch(error => bitmartSpotAPI.logger.log(error))
+```
+
+### Response Metadata
+
+The bitmart API server provides the endpoint rate limit usage in the header of each response. This information can be obtained from the headers property. `x-bm-ratelimit-remaining` indicates the number of times the current window has been used, `x-bm-ratelimit-limit` indicates the maximum number of times the current window can be used, and `x-bm-ratelimit-reset` indicates the current window time.
+
+
+##### Example:
+
+```
+x-bm-ratelimit-mode: IP
+x-bm-ratelimit-remaining: 10
+x-bm-ratelimit-limit: 600
+x-bm-ratelimit-reset: 60
+```
+
+This means that this IP can call the endpoint 600 times within 60 seconds, and has called 10 times so far.
+
+
+```javascript
+const Bitmart = require('@bitmartexchange/bitmart-node-sdk-api')
+const bitmartSpotAPI = new Bitmart.BitmartSpotAPI()
+
+bitmartSpotAPI.getV3Tickers()
+  .then(response => bitmartSpotAPI.logger.log(
+    response.headers['x-bm-ratelimit-mode'],
+    response.headers['x-bm-ratelimit-remaining'],
+    response.headers['x-bm-ratelimit-limit'],
+    response.headers['x-bm-ratelimit-reset'],
+  ))
   .catch(error => bitmartSpotAPI.logger.log(error))
 ```

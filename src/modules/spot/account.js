@@ -88,19 +88,20 @@ const Account = superclass => class extends superclass {
    * 
    * @param {String} currency - Token symbol, e.g., 'BTC'
    * @param {String} amount - The amount of currency to withdraw
-   * @param {String} destination - withdrawal address (To Digital Address)
-   * @param {String} address - Address (only the address added on the official website is supported)
+   * @param {String} options.address - Withdraw address (only the address added on the official website is supported)
    * @param {String} options.address_memo - Tag(tag Or payment_id Or memo)
+   * @param {String} options.destination - Remark
+   * @param {String} options.type - Account type(1=CID,2=Email,3=Phone)
+   * @param {String} options.value - Account 
+   * @param {String} options.areaCode - Phone area code, required when account type is phone, e.g.: 61
    * {@link https://developer-pro.bitmart.com/en/spot/#withdraw-signed}
    */
-  withdraw(currency, amount, destination, address, options = {}) {
-    validateRequiredParameters({ currency, amount, destination, address })
+  withdraw(currency, amount, options = {}) {
+    validateRequiredParameters({ currency, amount })
 
     return this.request(Auth.SIGNED, 'POST', '/account/v1/withdraw/apply', Object.assign(options, {
       currency: currency,
-      amount: amount,
-      destination: destination,
-      address: address
+      amount: amount
     }))
   }
 
