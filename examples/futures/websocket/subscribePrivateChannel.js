@@ -22,7 +22,9 @@ const callbacks = {
     client.send('{"action": "subscribe","args": ["futures/order"]}')
 
   },
-  close: () => console.info('.........Disconnected with Websocket server'),
+  close: () => console.info('.........Disconnected with server'),
+  pong: () => console.info('recv:pong from server'),
+  ping: () => console.info('recv:ping from server'),
   message: data => console.info('recv:' + data)
 }
 
@@ -34,5 +36,5 @@ const bitmartFuturesWebsocket = new BitmartFuturesWebsocket(
     apiMemo: yourApiMemo
 })
 
-// disconnect after 20 seconds
-setTimeout(() => bitmartFuturesWebsocket.disconnect(), 20000)
+// If it is a test, you can turn on active shutdown, disconnect after 20 seconds
+// setTimeout(() => bitmartFuturesWebsocket.disconnect(), 20000)

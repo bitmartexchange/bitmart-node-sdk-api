@@ -23,7 +23,7 @@ const FuturesTrade = superclass => class extends superclass {
      * @param {String} options.type - Order type <br>
      *                                  -limit(default) <br>
      *                                  -market <br>
-     * @param {Int} options.side - Order side     <br>
+     * @param {Number} options.side - Order side     <br>
      *                              -1=buy_open_long <br>
      *                              -2=buy_close_short <br>
      *                              -3=sell_close_long <br>
@@ -32,13 +32,21 @@ const FuturesTrade = superclass => class extends superclass {
      * @param {String} options.open_type - Open type, required at close position <br>
      *                                                          -cross <br>
      *                                                          -isolated <br>
-     * @param {Int} options.mode - Order mode <br>
+     * @param {Number} options.mode - Order mode <br>
      *                                  -1=GTC(default) <br>
      *                                  -2=FOK <br>
      *                                  -3=IOC <br>
      *                                  -4=Maker Only <br>
      * @param {String} options.price - Order price, required at limit order
-     * @param {Int} options.size - Order size (Number of contracts)
+     * @param {Number} options.size - Order size (Number of contracts)
+     * @param {String} options.activation_price - Activation price, required at trailing order
+     * @param {String} options.callback_rate - Callback rate, required at trailing order, min 0.1, max 5 where 1 for 1%
+     * @param {Number} options.activation_price_type - Activation price type, required at trailing order(1=last_price,2=fair_price)
+     * @param {Number} options.preset_take_profit_price_type - Pre-set TP price type(1=last_price(default),2=fair_price)
+     * @param {Number} options.preset_stop_loss_price_type - Pre-set SL price type(1=last_price(default),2=fair_price)
+     * @param {String} options.preset_take_profit_price - Pre-set TP price
+     * @param {String} options.preset_stop_loss_price - Pre-set SL price
+     * 
      * @returns {JSON} Object
      */
     newFuturesOrder(options = {}) {
@@ -93,7 +101,7 @@ const FuturesTrade = superclass => class extends superclass {
     * @param {String} options.type - Order type <br>
     *                                  -limit(default) <br>
     *                                  -market <br>
-    * @param {Int} options.side - Order side     <br>
+    * @param {Number} options.side - Order side     <br>
     *                              -1=buy_open_long <br>
     *                              -2=buy_close_short <br>
     *                              -3=sell_close_long <br>
@@ -102,20 +110,25 @@ const FuturesTrade = superclass => class extends superclass {
     * @param {String} options.open_type - Open type, required at close position <br>
     *                                                          -cross <br>
     *                                                          -isolated <br>
-    * @param {Int} options.mode - Order mode <br>
+    * @param {Number} options.mode - Order mode <br>
     *                                  -1=GTC(default) <br>
     *                                  -2=FOK <br>
     *                                  -3=IOC <br>
     *                                  -4=Maker Only <br>
-    * @param {Int} options.size - Order size (Number of contracts)
+    * @param {Number} options.size - Order size (Number of contracts)
     * @param {String} options.trigger_price - Trigger price
     * @param {String} options.executive_price - Order price, required at limit order
-    * @param {Int} options.price_way - Price way <br>
+    * @param {Number} options.price_way - Price way <br>
     *                          -1=price_way_long <br>
     *                          -2=price_way_short <br>
-    * @param {Int} options.price_type - Trigger price type <br>
+    * @param {Number} options.price_type - Trigger price type <br>
     *                      -1=last_price <br>
     *                      -2=fair_price <br>
+    * @param {Number} options.plan_category - TP/SL type (1=TP/SL, 2=Position TP/SL)
+    * @param {Number} options.preset_take_profit_price_type - Pre-set TP price type (1=last_price(default), 2=fair_price)
+    * @param {Number} options.preset_stop_loss_price_type - Pre-set SL price type (1=last_price(default), 2=fair_price)
+    * @param {String} options.preset_take_profit_price - Pre-set TP price
+    * @param {String} options.preset_stop_loss_price - Pre-set SL price
     * @returns {JSON} Object
     */
     newPlanOrder(options = {}) {
@@ -152,7 +165,7 @@ const FuturesTrade = superclass => class extends superclass {
      * @param {String} type - Transfer type <br>
      *                                  -spot_to_contract <br>
      *                                  -contract_to_spot <br>
-     * @param {Long} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @returns {JSON} Object
      */
     transfer(currency, amount, type, options = {}) {
@@ -213,8 +226,8 @@ const FuturesTrade = superclass => class extends superclass {
      * {@link https://developer-pro.bitmart.com/en/futures/#get-order-history-keyed}
      * 
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
-     * @param {Long} options.start_time - Start time, default is the last 7 days
-     * @param {Long} options.end_time - End time, default is the last 7 days
+     * @param {Number} options.start_time - Start time, default is the last 7 days
+     * @param {Number} options.end_time - End time, default is the last 7 days
      * @returns {JSON} Object
      */
     getOrderHistory(symbol, options = {}) {
@@ -239,7 +252,7 @@ const FuturesTrade = superclass => class extends superclass {
      * @param {String} options.order_state - Order state <br>
      *                                                 -all(default)     <br>
      *                                                 -partially_filled <br>
-     * @param {Int} options.limit - The number of returned results, with a maximum of 100 and a default of 100
+     * @param {Number} options.limit - The number of returned results, with a maximum of 100 and a default of 100
      * @returns {JSON} Object
      */
     getAllOpenOrders(symbol, options = {}) {
@@ -250,6 +263,22 @@ const FuturesTrade = superclass => class extends superclass {
         }))
     }
 
+    /**
+     * Get All Current Plan Orders (KEYED) <br>
+     * GET /contract/private/current-plan-order <br>
+     * 
+     * {@link https://developer-pro.bitmart.com/en/futures/#get-all-current-plan-orders-keyed}
+     * 
+     * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
+     * @param {String} options.type - Order type <br>
+     *                                              -limit   <br>
+     *                                              -market  <br>
+     * @param {Number} options.limit - The number of returned results, with a maximum of 100 and a default of 100
+     * @returns {JSON} Object
+     */
+      getAllCurrentPlanOrders(options = {}) {
+        return this.request(Auth.KEYED, 'GET', '/contract/private/current-plan-order', Object.assign(options))
+    }
 
     /**
      * Get Current Position (KEYED) <br>
@@ -265,6 +294,20 @@ const FuturesTrade = superclass => class extends superclass {
         return this.request(Auth.KEYED, 'GET', '/contract/private/position', Object.assign(options))
     }
 
+     /**
+     * Get Current Position Risk Details(KEYED) <br>
+     * 
+     * GET /contract/private/position-risk <br>
+     * 
+     * {@link https://developer-pro.bitmart.com/en/futures/#get-current-position-risk-details-keyed}
+     * 
+     * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
+     * @returns {JSON} Object
+     */
+     getCurrentPositionRisk(options = {}) {
+        return this.request(Auth.KEYED, 'GET', '/contract/private/position-risk', Object.assign(options))
+    }
+
     /** 
      * Get Order Trade (KEYED) <br>
      * GET /contract/private/trades <br>
@@ -272,8 +315,8 @@ const FuturesTrade = superclass => class extends superclass {
      * {@link https://developer-pro.bitmart.com/en/futures/#get-order-trade-keyed}
      * 
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
-     * @param {Long} options.start_time - Start time, default is the last 7 days
-     * @param {Long} options.end_time - End time, default is the last 7 days
+     * @param {Number} options.start_time - Start time, default is the last 7 days
+     * @param {Number} options.end_time - End time, default is the last 7 days
      * @returns {JSON} Object
      */
     getOrderTrade(symbol, options = {}) {
@@ -290,12 +333,12 @@ const FuturesTrade = superclass => class extends superclass {
      * 
      * {@link https://developer-pro.bitmart.com/en/futures/#get-transfer-list-signed}
      * 
-     * @param {Int} page - Number of pages, allowed range [1,1000]
-     * @param {Int} limit - Number of queries, allowed range [10,100]
+     * @param {Number} page - Number of pages, allowed range [1,1000]
+     * @param {Number} limit - Number of queries, allowed range [10,100]
      * @param {String} options.currency - Currency (like USDT)
-     * @param {Long} options.time_start - Start time in milliseconds, (e.g. 1681701557927)
-     * @param {Long} options.time_end - End time in milliseconds, (e.g. 1681701557927)
-     * @param {Long} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @param {Number} options.time_start - Start time in milliseconds, (e.g. 1681701557927)
+     * @param {Number} options.time_end - End time in milliseconds, (e.g. 1681701557927)
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
      * @returns {JSON} Object
      */
     getTransferList(page, limit, options = {}) {

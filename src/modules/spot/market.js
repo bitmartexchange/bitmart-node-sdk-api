@@ -46,21 +46,6 @@ const Market = superclass => class extends superclass {
         return this.request(Auth.NONE, 'GET', '/spot/v1/symbols/details')
     }
 
-
-    /**
-    * @deprecated This function is deprecated and will be removed in the next release.
-    * Use the `getV3Ticker()` method instead.
-    * 
-    * Get Ticker of All Pairs (V2) <br>
-    *
-    * GET /spot/v2/ticker <br>
-    *
-    * {@link https://developer-pro.bitmart.com/en/spot/#get-ticker-of-all-pairs-v2}
-    */
-    getTicker() {
-        return this.request(Auth.NONE, 'GET', '/spot/v2/ticker')
-    }
-
     /**
      * Get Ticker of All Pairs (V3) <br>
      * 
@@ -70,22 +55,6 @@ const Market = superclass => class extends superclass {
      */
     getV3Tickers() {
         return this.request(Auth.NONE, 'GET', '/spot/quotation/v3/tickers')
-    }
-
-
-    /**
-    * @deprecated This function is deprecated and will be removed in the next release.
-    * Use the `getV3Ticker()` method instead.
-    * Get Ticker of a Trading Pair (V1) <br>
-    *
-    * GET /spot/v1/ticker_detail <br>
-    * @param {String} symbol - Trading pair (e.g. BMX_USDT)
-    * {@link https://developer-pro.bitmart.com/en/spot/#get-ticker-of-a-trading-pair}
-    */
-    getTickerDetail(symbol) {
-        return this.request(Auth.NONE, 'GET', '/spot/v1/ticker_detail', {
-            symbol: symbol
-        })
     }
 
     /**
@@ -103,44 +72,6 @@ const Market = superclass => class extends superclass {
         return this.request(Auth.NONE, 'GET', '/spot/quotation/v3/ticker', {
             symbol: symbol
         })
-    }
-
-    /**
-    * @deprecated This function is deprecated and will be removed in the next release.
-    * 
-    * Get K-Line Step <br>
-    *
-    * GET /spot/v1/steps <br>
-    *
-    * {@link https://developer-pro.bitmart.com/en/spot/#get-k-line-step}
-    */
-    getKlineStep() {
-        return this.request(Auth.NONE, 'GET', '/spot/v1/steps')
-    }
-
-
-    /**
-     * @deprecated This function is deprecated and will be removed in the next release.
-     * Use the `getV3LatestKline() or getV3HistoryKline()` method instead.
-     * Get K-Line <br>
-     * 
-     * GET /spot/v1/symbols/kline
-     * 
-     * @param {String} symbol - Trading pair (e.g. BMX_USDT)
-     * @param {Long} from - Start timestamp (in seconds, UTC+0 TimeZome)
-     * @param {Long} to - End timestamp (in seconds, UTC+0 TimeZome)
-     * @param {String} options.step - k-line step Steps (in minutes, default 1 minute)
-     * 
-     * {@link https://developer-pro.bitmart.com/en/spot/#get-k-line}
-     */
-    getKline(symbol, from, to, options = {}) {
-        validateRequiredParameters({ symbol, from, to })
-
-        return this.request(Auth.NONE, 'GET', '/spot/v1/symbols/kline', Object.assign(options, {
-            symbol: symbol,
-            from: from,
-            to: to
-        }))
     }
 
     /**
@@ -186,26 +117,6 @@ const Market = superclass => class extends superclass {
         }))
     }
 
-
-    /**
-    * @deprecated This function is deprecated and will be removed in the next release.
-    * Use the `getV3Depth()` method instead.
-    * Get Depth <br>
-    *
-    * /spot/v1/symbols/book (V1) <br>
-    * @param {String} symbol - Trading pair (e.g. BMX_USDT)
-    * @param {String} options.precision - Price precision, the range is defined in trading pair details
-    * @param {Int} options.size - Number of results per request. The value can be transmitted [1-50], there are altogether [2-100] buying and selling depths
-    * {@link https://developer-pro.bitmart.com/en/spot/#get-depth}
-    */
-    getDepth(symbol, options = {}) {
-        validateRequiredParameters({ symbol })
-
-        return this.request(Auth.NONE, 'GET', '/spot/v1/symbols/book', Object.assign(options, {
-            symbol: symbol
-        }))
-    }
-
     /**
      * Get Depth (V3) <br>
      * 
@@ -220,25 +131,6 @@ const Market = superclass => class extends superclass {
         validateRequiredParameters({ symbol })
 
         return this.request(Auth.NONE, 'GET', '/spot/quotation/v3/books', Object.assign(options, {
-            symbol: symbol
-        }))
-    }
-
-    /**
-    * @deprecated This function is deprecated and will be removed in the next release.
-    * Use the `getV3Trades()` method instead.
-    * 
-    * Get Recent Trades (V1) <br>
-    *
-    * GET /spot/v1/symbols/trades <br>
-    * @param {String} symbol - Trading pair (e.g. BMX_USDT)
-    * @param {Int} options.N - Number of returned items, the default maximum is 50
-    * {@link https://developer-pro.bitmart.com/en/spot/#get-recent-trades}
-    */
-    getSymbolsTrades(symbol, options = {}) {
-        validateRequiredParameters({ symbol })
-
-        return this.request(Auth.NONE, 'GET', '/spot/v1/symbols/trades', Object.assign(options, {
             symbol: symbol
         }))
     }
