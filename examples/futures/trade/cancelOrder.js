@@ -14,8 +14,8 @@ const bitmartFuturesAPI = new BitmartFuturesAPI({
     logger: createDefaultLogger(true),
 })
 
-bitmartFuturesAPI.cancelPlanOrder("ETHUSDT",{
-    order_id: "220906179559421",
+bitmartFuturesAPI.cancelOrder("ETHUSDT", {
+    order_id: "12312312312",
 })
 .then(response => bitmartFuturesAPI.logger.log(response.data))
     .catch(error => {
@@ -28,3 +28,17 @@ bitmartFuturesAPI.cancelPlanOrder("ETHUSDT",{
         }
     });
 
+
+bitmartFuturesAPI.cancelOrder("ETHUSDT", {
+    client_order_id: "12312312312",
+})
+    .then(response => bitmartFuturesAPI.logger.log(response.data))
+    .catch(error => {
+        if (error.response) {
+            bitmartFuturesAPI.logger.log(error.response.data);
+        } else if (error.request) {
+            bitmartFuturesAPI.logger.log(error.request);
+        } else {
+            bitmartFuturesAPI.logger.log('Error', error.message);
+        }
+    });

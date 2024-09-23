@@ -14,9 +14,7 @@ const bitmartFuturesAPI = new BitmartFuturesAPI({
     logger: createDefaultLogger(true),
 })
 
-bitmartFuturesAPI.cancelPlanOrder("ETHUSDT",{
-    order_id: "220906179559421",
-})
+bitmartFuturesAPI.cancelAllOrder("ETHUSDT")
 .then(response => bitmartFuturesAPI.logger.log(response.data))
     .catch(error => {
         if (error.response) {

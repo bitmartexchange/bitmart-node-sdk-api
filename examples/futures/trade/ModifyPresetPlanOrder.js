@@ -14,10 +14,12 @@ const bitmartFuturesAPI = new BitmartFuturesAPI({
     logger: createDefaultLogger(true),
 })
 
-bitmartFuturesAPI.cancelPlanOrder("ETHUSDT",{
-    order_id: "220906179559421",
-})
-.then(response => bitmartFuturesAPI.logger.log(response.data))
+bitmartFuturesAPI.modifyPresetPlanOrder('ETHUSDT', '220609666322019', {
+    preset_take_profit_price:"2000",
+    preset_stop_loss_price:"1900",
+    preset_take_profit_price_type:1,
+    preset_stop_loss_price_type:1,
+}).then(response => bitmartFuturesAPI.logger.log(response.data))
     .catch(error => {
         if (error.response) {
             bitmartFuturesAPI.logger.log(error.response.data);
@@ -27,4 +29,3 @@ bitmartFuturesAPI.cancelPlanOrder("ETHUSDT",{
             bitmartFuturesAPI.logger.log('Error', error.message);
         }
     });
-
