@@ -56,22 +56,22 @@ const FuturesTrade = superclass => class extends superclass {
     /**
      * Cancel Order (SIGNED) <br>
      * POST /contract/private/cancel-order <br>
-     * 
+     *
      * {@link https://developer-pro.bitmart.com/en/futures/#cancel-order-signed}
-     * 
+     *
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
-     * @param {String} orderId - Order ID
+     * @param options
+     * @param {String} options.order_id - Order ID
+     * @param {String} options.client_order_id - Client-defined OrderId
      * @returns {JSON} Object
      */
-    cancelFuturesOrder(symbol, orderId) {
-        validateRequiredParameters({ symbol, orderId })
+    cancelOrder(symbol, options = {}) {
+        validateRequiredParameters({ symbol })
 
-        return this.request(Auth.SIGNED, 'POST', '/contract/private/cancel-order', {
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/cancel-order', Object.assign(options, {
             symbol: symbol,
-            order_id: orderId
-        })
+        }))
     }
-
 
     /**
      * Cancel All Orders (SIGNED) <br>
@@ -82,7 +82,7 @@ const FuturesTrade = superclass => class extends superclass {
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @returns {JSON} Object
      */
-    cancelAllFuturesOrder(symbol) {
+    cancelAllOrder(symbol) {
         validateRequiredParameters({ symbol })
 
         return this.request(Auth.SIGNED, 'POST', '/contract/private/cancel-orders', {
@@ -138,20 +138,21 @@ const FuturesTrade = superclass => class extends superclass {
     /**
      * Cancel Plan Order (SIGNED) <br>
      * POST /contract/private/cancel-plan-order <br>
-     * 
+     *
      * {@link https://developer-pro.bitmart.com/en/futures/#cancel-plan-order-signed}
-     * 
+     *
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
-     * @param {String} orderId - Order ID
+     * @param options
+     * @param options.order_id - Order ID
+     * @param options.client_order_id - Client Order ID
      * @returns {JSON} Object
      */
-    cancelPlanOrder(symbol, orderId) {
-        validateRequiredParameters({ symbol, orderId })
+    cancelPlanOrder(symbol, options = {}) {
+        validateRequiredParameters({ symbol })
 
-        return this.request(Auth.SIGNED, 'POST', '/contract/private/cancel-plan-order', {
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/cancel-plan-order', Object.assign(options, {
             symbol: symbol,
-            order_id: orderId
-        })
+        }))
     }
 
     /**
@@ -274,6 +275,9 @@ const FuturesTrade = superclass => class extends superclass {
      *                                              -limit   <br>
      *                                              -market  <br>
      * @param {Number} options.limit - The number of returned results, with a maximum of 100 and a default of 100
+     * @param {Number} options.plan_type - Plan order type
+     *                                  -plan
+     *                                  - profit_loss
      * @returns {JSON} Object
      */
       getAllCurrentPlanOrders(options = {}) {
@@ -349,6 +353,141 @@ const FuturesTrade = superclass => class extends superclass {
             limit: limit
         }))
     }
+
+    /**
+     * Submit TP/SL Order (SIGNED) <br>
+     * POST /contract/private/submit-tp-sl-order <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#submit-tp-or-sl-order-signed}
+     *
+     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param {String} type - Order type
+     *                          -take_profit
+     *                          -stop_loss
+     * @param {Number} side - Order side
+     *                            -2=buy_close_short
+     *                            -3=sell_close_long
+     * @param {String} trigger_price - Trigger price
+     * @param {String} executive_price - Execution price
+     * @param {Number} price_type - Trigger price type
+     *                           -1=last_price
+     *                           -2=fair_price
+     * @param options
+     * @param {Number} options.size - Order size (Number of contracts) Default the size of position
+     * @param {Number} options.plan_category - TP/SL type
+     *                                          -1=TP/SL(default)
+     *                                          -2=Position TP/SL
+     * @param {String} options.client_order_id - Client order ID
+     * @param {String} options.category - Trigger order type, position TP/SL default market
+     *                                  -limit
+     *                                  -market
+     * @returns {JSON} Object
+     */
+    submitTpSlOrder(symbol, type, side, trigger_price, executive_price, price_type, options = {}) {
+        validateRequiredParameters({ symbol, type, side, trigger_price, executive_price, price_type  })
+
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/submit-tp-sl-order', Object.assign(options, {
+            symbol: symbol,
+            type: type,
+            side: side,
+            trigger_price: trigger_price,
+            executive_price: executive_price,
+            price_type: price_type,
+        }))
+    }
+
+    /**
+     * Modify Plan Order (SIGNED) <br>
+     * POST /contract/private/modify-plan-order <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#modify-plan-order-signed}
+     *
+     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param {String} trigger_price - Trigger price
+     * @param {Number} price_type - Trigger price type
+     *                  -1=last_price
+     *                  -2=fair_price
+     * @param {String} type - Order type
+     *                       -limit
+     *                      -market
+     * @param options
+     * @param {String} options.order_id - Order ID(order_id or client_order_id must give one)
+     * @param {String} options.client_order_id - Client order ID(order_id or client_order_id must give one)
+     * @param {String} options.executive_price - Execution price for plan order, mandatory when type = limit
+     * @returns {JSON} Object
+     */
+    modifyPlanOrder(symbol, trigger_price, price_type, type, options = {}) {
+        validateRequiredParameters({ symbol, type, trigger_price, price_type  })
+
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/modify-plan-order', Object.assign(options, {
+            symbol: symbol,
+            type: type,
+            trigger_price: trigger_price,
+            price_type: price_type,
+        }))
+    }
+
+    /**
+     * Modify Preset Plan Order (SIGNED) <br>
+     * POST /contract/private/modify-preset-plan-order <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#modify-preset-plan-order-signed}
+     *
+     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param {String} order_id - Symbol of the contract(like BTCUSDT)
+     * @param options
+     * @param {String} options.preset_take_profit_price_type - Pre-set TP price type
+     *                      -1=last_price(default)
+     *                      -2=fair_price
+     * @param {String} options.preset_stop_loss_price_type - Pre-set SL price type
+     *                      -1=last_price(default)
+     *                      -2=fair_price
+     * @param {String} options.preset_take_profit_price - Pre-set TP price
+     * @param {String} options.preset_stop_loss_price - Pre-set SL price
+     * @returns {JSON} Object
+     */
+    modifyPresetPlanOrder(symbol, order_id, options = {}) {
+        validateRequiredParameters({symbol, order_id})
+
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/modify-preset-plan-order', Object.assign(options, {
+            symbol: symbol,
+            order_id: order_id,
+        }))
+    }
+
+    /**
+     * Modify TP/SL Order (SIGNED) <br>
+     * POST /contract/private/modify-tp-sl-order <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#modify-tp-sl-order-signed}
+     *
+     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param {String} trigger_price - Trigger price
+     * @param {String} price_type - Trigger price type
+     *                  -1=last_price
+     *                  -2=fair_price
+     * @param options
+     * @param {String} options.order_id - Order ID(order_id or client_order_id must give one)
+     * @param {String} options.client_order_id - Client order ID(order_id or client_order_id must give one)
+     * @param {String} options.executive_price - Execution price for order, mandatory when plan_category = 1
+     * @param {String} options.plan_category - TP/SL type
+     *                          -1=TP/SL
+     *                          -2=Position TP/SL
+     * @param {String} options.category - Order type, Position TP/SL default market
+     *                          -limit
+     *                          -market
+     * @returns {JSON} Object
+     */
+    modifyTpSlOrder(symbol, trigger_price, price_type, options = {}) {
+        validateRequiredParameters({symbol, trigger_price, price_type })
+
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/modify-tp-sl-order', Object.assign(options, {
+            symbol: symbol,
+            trigger_price: trigger_price,
+            price_type: price_type,
+        }))
+    }
+
 
 }
 

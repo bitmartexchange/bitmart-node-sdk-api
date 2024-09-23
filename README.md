@@ -353,7 +353,7 @@ const Bitmart = require('@bitmartexchange/bitmart-node-sdk-api')
 const fs = require('fs')
 const { Console } = require('console')
 
-// make sure the logs/ folder is created beforehand
+// make sure the logs/ folder is created before hand
 const output = fs.createWriteStream('./logs/stdout.log')
 const errorOutput = fs.createWriteStream('./logs/stderr.log')
 const logger = new Console({ stdout: output, stderr: errorOutput })

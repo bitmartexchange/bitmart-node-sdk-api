@@ -1,8 +1,6 @@
 'use strict'
 
-const crypto = require('crypto')
-const { isEmptyValue, removeEmptyValue, buildQueryString, createRequest, createSign, defaultLogger, Auth } = require('../lib/utils')
-const { time } = require('console')
+const { removeEmptyValue, buildQueryString, createRequest, createSign, createDefaultLogger, Auth } = require('../lib/utils')
 const constants = require('../lib/constants')
 
 class CloudApiClient {
@@ -15,7 +13,7 @@ class CloudApiClient {
     this.baseURL = baseURL
     this.timeout = timeout || 5000
     this.headers = headers
-    this.logger = logger || defaultLogger
+    this.logger = logger || createDefaultLogger(false)
   }
 
   request (auth, method, path, params = {}) {

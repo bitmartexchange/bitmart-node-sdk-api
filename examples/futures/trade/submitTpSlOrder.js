@@ -1,7 +1,7 @@
 'use strict'
 
 const BitmartFuturesAPI = require('../../../src/bitmartFuturesAPI')
-
+const {createDefaultLogger} = require("../../../src/lib/utils");
 
 const yourApiKey = 'your api key'
 const yourApiSecret = 'your api secret'
@@ -10,10 +10,15 @@ const bitmartFuturesAPI = new BitmartFuturesAPI({
     apiKey: yourApiKey,
     apiSecret: yourApiSecret,
     apiMemo: yourApiMemo,
+    logger: createDefaultLogger(true),
 })
 
-bitmartFuturesAPI.cancelFuturesOrder("ETHUSDT","230628411614714")
-.then(response => bitmartFuturesAPI.logger.log(response.data))
+bitmartFuturesAPI.submitTpSlOrder('ETHUSDT', "take_profit", 2, "2000", "1450", 1, {
+    size: 10,
+    plan_category: 1,
+    client_order_id: "12312312312",
+    category: "limit",
+}).then(response => bitmartFuturesAPI.logger.log(response.data))
     .catch(error => {
         if (error.response) {
             bitmartFuturesAPI.logger.log(error.response.data);
@@ -23,4 +28,3 @@ bitmartFuturesAPI.cancelFuturesOrder("ETHUSDT","230628411614714")
             bitmartFuturesAPI.logger.log('Error', error.message);
         }
     });
-
