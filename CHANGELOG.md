@@ -1,6 +1,16 @@
 Changelog
 =========================
 
+
+### v2.1.0 Release
+#### New Features
+- New
+- Updated
+- Removed
+
+---
+
+
 ### v2.0.0 Release
 #### New Features
 - New
