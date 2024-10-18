@@ -3,8 +3,8 @@
 const zlib = require('zlib')
 const crypto = require('crypto')
 const WebSocketClient = require('ws')
-const { isEmptyValue, defaultLogger } = require('../lib/utils')
 const {execSync} = require('child_process');
+const {isEmptyValue, createDefaultLogger} = require("./utils");
 
 class CloudWebsocketClient {
   constructor (wsURL, isSpot, options = {}) {
@@ -15,7 +15,7 @@ class CloudWebsocketClient {
     this.apiMemo = options.apiMemo
     this.callbacks = options.callbacks || {}
     this.reconnectDelay = options.reconnectDelay || 5000
-    this.logger = options.logger || defaultLogger
+    this.logger = options.logger || createDefaultLogger(false)
     this.wsConnection = {}
   }
 
@@ -26,32 +26,31 @@ class CloudWebsocketClient {
 
   initConnect () {
     const ws = new WebSocketClient(this.wsURL)
-    this.logger.info(`Sending Websocket connection to: ${this.wsURL}`)
+    this.logger.debug(`Sending Websocket connection to: ${this.wsURL}`)
     this.wsConnection.ws = ws
     this.wsConnection.closeInitiated = false
 
     ws.on('open', () => {
-      this.logger.info(`Connected to the Websocket Server: ${this.wsURL}`)
+      this.logger.debug(`Connected to the Websocket Server: ${this.wsURL}`)
       this.callbacks.open && this.callbacks.open(this)
 
       setInterval(() => {
-        this.wsConnection.ws.ping()
+        this.keepAlive()
       }, 5000)
 
     })
 
-    ws.on('message', data => {
-      if(data.toString() === 'pong') {
-        return
-      }
-
-      if (!data.toString().startsWith("{")) {
+     ws.on('message', (data, isBinary) => {
+       if (isBinary) {
           const decompressedData = zlib.inflateRawSync(data);
           this.callbacks.message && this.callbacks.message(decompressedData.toString())
-      } else {
-          this.callbacks.message && this.callbacks.message(data.toString())
-      }
-      
+       } else {
+           if (data.toString() === 'pong') {
+               this.callbacks.pong && this.callbacks.pong()
+               return
+           }
+           this.callbacks.message && this.callbacks.message(data.toString())
+       }
     })
 
     ws.on('ping', () => {
@@ -94,7 +93,20 @@ class CloudWebsocketClient {
     else {
       this.wsConnection.closeInitiated = true
       this.wsConnection.ws.close()
-      this.logger.info('Disconnected with BitMart Websocket Server')
+      this.logger.debug('Disconnected with BitMart Websocket Server')
+    }
+  }
+
+  keepAlive() {
+    if (!this.isConnected()) {
+        this.logger.warn('Send ping can be sent only when connection is ready.')
+    }
+    else {
+        if (this.isSpot) {
+            this.wsConnection.ws.send('ping')
+        } else {
+            this.wsConnection.ws.send('{"action":"ping"}')
+        }
     }
   }
 

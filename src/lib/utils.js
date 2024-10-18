@@ -111,9 +111,17 @@ function createDefaultLogger(debugEnabled = false) {
             const timestamp = getCurrentTime();
             myConsole.log(`[${timestamp}]`, ...args);
         },
+        info: (...args) => {
+            const timestamp = getCurrentTime();
+            myConsole.log(`[${timestamp}]`, ...args);
+        },
         error: (...args) => {
             const timestamp = getCurrentTime();
             myConsole.error(`[${timestamp}]`, ...args);
+        },
+        warn: (...args) => {
+            const timestamp = getCurrentTime();
+            myConsole.warn(`[${timestamp}]`, ...args);
         },
         debug: (...args) => {
             if (debugEnabled) {

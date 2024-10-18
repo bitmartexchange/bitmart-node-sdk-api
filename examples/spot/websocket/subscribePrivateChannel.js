@@ -12,6 +12,9 @@ const callbacks = {
   open: (client) => {
     client.login()
 
+    // 【Private】Balance Change
+    client.send('{"op": "subscribe", "args": ["spot/user/balance:BALANCE_UPDATE"]}')
+
     // 【Private】Order Progress
     client.send('{"op": "subscribe", "args": ["spot/user/order:BTC_USDT"]}')
 

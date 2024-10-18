@@ -7,7 +7,7 @@ const { flowRight } = require('./lib/utils')
 class BitmartFuturesAPI extends flowRight(...Object.values(futuresModules))(CloudApiClient) {
 
   constructor (options = {}) {
-    options.baseURL = options.baseURL || 'https://api-cloud.bitmart.com'
+    options.baseURL = options.baseURL || 'https://api-cloud-v2.bitmart.com'
     super({
       ...options
     })

@@ -6,7 +6,7 @@ const BitmartSpotWebsocket = require('../../../src/bitmartSpotWebsocket')
 const callbacks = {
   open: (client) => {
     // 【Public】Ticker Channel
-    // client.send('{"op": "subscribe", "args": ["spot/ticker:BTC_USDT"]}')
+    client.send('{"op": "subscribe", "args": ["spot/ticker:BTC_USDT"]}')
 
     // 【Public】KLine Channel
     // client.send('{"op": "subscribe", "args": ["spot/kline1m:BTC_USDT"]}')

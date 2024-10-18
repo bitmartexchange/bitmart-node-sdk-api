@@ -1,6 +1,6 @@
 {
   "name": "@bitmartexchange/bitmart-node-sdk-api",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "BitMart Exchange official Nodejs client for the BitMart Cloud API. ",
   "main": "src/index.js",
   "repository": {
