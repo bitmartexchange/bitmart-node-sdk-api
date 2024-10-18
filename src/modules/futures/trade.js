@@ -199,6 +199,22 @@ const FuturesTrade = superclass => class extends superclass {
         }))
     }
 
+    /**
+     * Get Trade Fee Rate (KEYED) <br>
+     * GET /contract/private/trade-fee-rate <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-trade-fee-rate-keyed}
+     *
+     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @returns {JSON} Object
+     */
+    getTradeFeeRate(symbol) {
+        validateRequiredParameters({ symbol })
+
+        return this.request(Auth.KEYED, 'GET', '/contract/private/trade-fee-rate', {
+            symbol: symbol,
+        })
+    }
 
 
     /**

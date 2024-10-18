@@ -2,6 +2,16 @@ Changelog
 =========================
 
 
+### v2.2.0 Release
+#### New Features
+- New
+  - `/contract/private/trade-fee-rate` Support querying trade fee rate(SIGNED)
+#### Improvements
+  - The default url of the client BitmartFuturesAPI is set to `https://api-cloud-v2.bitmart.com`
+  - The ping/pong mechanism of the spot websocket has been modified to support `ping` text
+
+---
+
 ### v2.1.0 Release
 #### New Features
 - New
