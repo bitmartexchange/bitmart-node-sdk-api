@@ -2,10 +2,17 @@ Changelog
 =========================
 
 
+### v2.2.1 Release
+#### Improvements
+- The domain name `wss://openapi-ws.bitmart.com` will not provide Futures 1.0 Websocket services.
+  Please use the domain name `wss://openapi-ws-v2.bitmart.com` to access Futures 2.0 Websocket services
+
+---
+
 ### v2.2.0 Release
 #### New Features
 - New
-  - `/contract/private/trade-fee-rate` Support querying trade fee rate(SIGNED)
+  - `/contract/private/trade-fee-rate` Support querying trade fee rate(KEYED)
 #### Improvements
   - The default url of the client BitmartFuturesAPI is set to `https://api-cloud-v2.bitmart.com`
   - The ping/pong mechanism of the spot websocket has been modified to support `ping` text
