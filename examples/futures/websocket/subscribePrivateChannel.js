@@ -29,7 +29,7 @@ const callbacks = {
 }
 
 const bitmartFuturesWebsocket = new BitmartFuturesWebsocket(
-    'wss://openapi-ws.bitmart.com/user?protocol=1.1', { 
+    'wss://openapi-ws.bitmart.com/user?protocol=1.1', {
     callbacks: callbacks,
     apiKey: yourApiKey,
     apiSecret: yourApiSecret,
