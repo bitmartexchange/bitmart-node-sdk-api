@@ -24,8 +24,8 @@ Feature
     - `/account/*`
     - Spot WebSocket Market Stream
     - Spot User Data Stream
-    - Contract User Data Stream
-    - Contract WebSocket Market Stream
+    - Futures User Data Stream
+    - Futures WebSocket Market Stream
 - Examples
 
 

@@ -16,8 +16,8 @@ const FuturesTrade = superclass => class extends superclass {
      *
      * POST /contract/private/submit-order <br>
      * 
-     * {@link https://developer-pro.bitmart.com/en/futures/#submit-order-signed}
-     * 
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#submit-order-signed}
+     *
      * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
      * @param {String} options.client_order_id - Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
      * @param {String} options.type - Order type <br>
@@ -39,9 +39,6 @@ const FuturesTrade = superclass => class extends superclass {
      *                                  -4=Maker Only <br>
      * @param {String} options.price - Order price, required at limit order
      * @param {Number} options.size - Order size (Number of contracts)
-     * @param {String} options.activation_price - Activation price, required at trailing order
-     * @param {String} options.callback_rate - Callback rate, required at trailing order, min 0.1, max 5 where 1 for 1%
-     * @param {Number} options.activation_price_type - Activation price type, required at trailing order(1=last_price,2=fair_price)
      * @param {Number} options.preset_take_profit_price_type - Pre-set TP price type(1=last_price(default),2=fair_price)
      * @param {Number} options.preset_stop_loss_price_type - Pre-set SL price type(1=last_price(default),2=fair_price)
      * @param {String} options.preset_take_profit_price - Pre-set TP price
@@ -57,7 +54,7 @@ const FuturesTrade = superclass => class extends superclass {
      * Cancel Order (SIGNED) <br>
      * POST /contract/private/cancel-order <br>
      *
-     * {@link https://developer-pro.bitmart.com/en/futures/#cancel-order-signed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#cancel-order-signed}
      *
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @param options
@@ -77,7 +74,7 @@ const FuturesTrade = superclass => class extends superclass {
      * Cancel All Orders (SIGNED) <br>
      * POST /contract/private/cancel-orders <br>
      * 
-     * {@link https://developer-pro.bitmart.com/en/futures/#cancel-all-orders-signed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#cancel-all-orders-signed}
      * 
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @returns {JSON} Object
@@ -95,7 +92,7 @@ const FuturesTrade = superclass => class extends superclass {
     *
     * POST /contract/private/submit-plan-order <br>
     * 
-    * {@link https://developer-pro.bitmart.com/en/futures/#submit-plan-order-signed}
+    * {@link https://developer-pro.bitmart.com/en/futuresv2/#submit-plan-order-signed}
     * 
     * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
     * @param {String} options.type - Order type <br>
@@ -139,7 +136,7 @@ const FuturesTrade = superclass => class extends superclass {
      * Cancel Plan Order (SIGNED) <br>
      * POST /contract/private/cancel-plan-order <br>
      *
-     * {@link https://developer-pro.bitmart.com/en/futures/#cancel-plan-order-signed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#cancel-plan-order-signed}
      *
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @param options
@@ -159,7 +156,7 @@ const FuturesTrade = superclass => class extends superclass {
      * Transfer (SIGNED) <br>
      * POST /account/v1/transfer-contract <br>
      * 
-     * {@link https://developer-pro.bitmart.com/en/futures/#transfer-signed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#transfer-signed}
      * 
      * @param {String} currency - Currency (Only USDT is supported)
      * @param {String} amount - Transfer amount，allowed range[0.01,10000000000]
@@ -181,7 +178,7 @@ const FuturesTrade = superclass => class extends superclass {
 
     /**
      * Submit Leverage (SIGNED)
-     * {@link https://developer-pro.bitmart.com/en/futures/#submit-leverage-signed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#submit-leverage-signed}
      * 
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @param {String} openType - Open type, required at close position
@@ -221,7 +218,7 @@ const FuturesTrade = superclass => class extends superclass {
      * Get Order Detail (KEYED) <br>
      * GET /contract/private/order <br>
      * 
-     * {@link https://developer-pro.bitmart.com/en/futures/#get-order-detail-keyed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-order-detail-keyed}
      * 
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @param {String} orderId - Order ID
@@ -240,7 +237,7 @@ const FuturesTrade = superclass => class extends superclass {
      * Get Order History (KEYED) <br>
      * GET /contract/private/order-history <br>
      * 
-     * {@link https://developer-pro.bitmart.com/en/futures/#get-order-history-keyed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-order-history-keyed}
      * 
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @param {Number} options.start_time - Start time, default is the last 7 days
@@ -260,7 +257,7 @@ const FuturesTrade = superclass => class extends superclass {
      * Get All Open Orders (KEYED) <br>
      * GET /contract/private/get-open-orders <br>
      * 
-     * {@link https://developer-pro.bitmart.com/en/futures/#get-all-open-orders-keyed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-all-open-orders-keyed}
      * 
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @param {String} options.type - Order type <br>
@@ -284,7 +281,7 @@ const FuturesTrade = superclass => class extends superclass {
      * Get All Current Plan Orders (KEYED) <br>
      * GET /contract/private/current-plan-order <br>
      * 
-     * {@link https://developer-pro.bitmart.com/en/futures/#get-all-current-plan-orders-keyed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-all-current-plan-orders-keyed}
      * 
      * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
      * @param {String} options.type - Order type <br>
@@ -305,7 +302,7 @@ const FuturesTrade = superclass => class extends superclass {
      * 
      * GET /contract/private/position <br>
      * 
-     * {@link https://developer-pro.bitmart.com/en/futures/#get-current-position-keyed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-current-position-keyed}
      * 
      * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
      * @returns {JSON} Object
@@ -319,7 +316,7 @@ const FuturesTrade = superclass => class extends superclass {
      * 
      * GET /contract/private/position-risk <br>
      * 
-     * {@link https://developer-pro.bitmart.com/en/futures/#get-current-position-risk-details-keyed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-current-position-risk-details-keyed}
      * 
      * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
      * @returns {JSON} Object
@@ -332,7 +329,7 @@ const FuturesTrade = superclass => class extends superclass {
      * Get Order Trade (KEYED) <br>
      * GET /contract/private/trades <br>
      * 
-     * {@link https://developer-pro.bitmart.com/en/futures/#get-order-trade-keyed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-order-trade-keyed}
      * 
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @param {Number} options.start_time - Start time, default is the last 7 days
@@ -348,10 +345,33 @@ const FuturesTrade = superclass => class extends superclass {
     }
 
     /**
+     * Get Transaction History (KEYED) <br>
+     * GET /contract/private/transaction-history <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-transaction-history-keyed}
+     *
+     * @param {String} options.symbol - Symbol of the contract
+     * @param {Number} options.flow_type - Type
+     *                                      - 0 = All (default)
+     *                                      - 1 = Transfer
+     *                                      - 2 = Realized PNL
+     *                                      - 3 = Funding Fee
+     *                                      - 4 = Commission Fee
+     *                                      - 5 = Liquidation Clearance
+     * @param {Number} options.start_time - Start time, timestamp in ms
+     * @param {Number} options.end_time - End time, timestamp in ms
+     * @param {Number} options.page_size - Default 100; max 1000
+     * @returns {JSON} Object
+     */
+    getTransactionHistory(options = {}) {
+        return this.request(Auth.KEYED, 'GET', '/contract/private/transaction-history', options)
+    }
+
+    /**
      * Get Transfer List (SIGNED) <br>
      * POST /account/v1/transfer-contract-list <br>
      * 
-     * {@link https://developer-pro.bitmart.com/en/futures/#get-transfer-list-signed}
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-transfer-list-signed}
      * 
      * @param {Number} page - Number of pages, allowed range [1,1000]
      * @param {Number} limit - Number of queries, allowed range [10,100]
@@ -428,7 +448,6 @@ const FuturesTrade = superclass => class extends superclass {
      *                      -market
      * @param options
      * @param {String} options.order_id - Order ID(order_id or client_order_id must give one)
-     * @param {String} options.client_order_id - Client order ID(order_id or client_order_id must give one)
      * @param {String} options.executive_price - Execution price for plan order, mandatory when type = limit
      * @returns {JSON} Object
      */
@@ -501,6 +520,54 @@ const FuturesTrade = superclass => class extends superclass {
             symbol: symbol,
             trigger_price: trigger_price,
             price_type: price_type,
+        }))
+    }
+
+    /**
+     * Submit Trail Order (SIGNED) <br>
+     *
+     * POST /contract/private/submit-trail-order <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#submit-trail-order-signed
+     *
+     * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
+     * @param {Number} options.side - Order side     <br>
+     *                              -1=buy_open_long <br>
+     *                              -2=buy_close_short <br>
+     *                              -3=sell_close_long <br>
+     *                              -4=sell_open_short <br>
+     * @param {String} options.leverage - Order leverage
+     * @param {String} options.open_type - Open type, required at close position <br>
+     *                                                          -cross <br>
+     *                                                          -isolated <br>
+     * @param {Number} options.size - Order size (Number of contracts)
+     * @param {String} options.activation_price - Activation price, required at trailing order
+     * @param {String} options.callback_rate - Callback rate, required at trailing order, min 0.1, max 5 where 1 for 1%
+     * @param {Number} options.activation_price_type - Activation price type, required at trailing order <br>
+     *                      -1=last_price <br>
+     *                      -2=fair_price <br>
+     * @returns {JSON} Object
+     */
+    newTrailOrder(options = {}) {
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/submit-trail-order', Object.assign(options))
+    }
+
+    /**
+     * Cancel Trail Order (SIGNED) <br>
+     * POST /contract/private/cancel-trail-order <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#cancel-trail-order-signed}
+     *
+     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param options
+     * @param options.order_id - Order ID
+     * @returns {JSON} Object
+     */
+    cancelTrailOrder(symbol, options = {}) {
+        validateRequiredParameters({ symbol })
+
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/cancel-trail-order', Object.assign(options, {
+            symbol: symbol,
         }))
     }
 
