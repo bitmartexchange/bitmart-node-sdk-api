@@ -31,12 +31,12 @@ const FuturesMarket = superclass => class extends superclass {
      * GET /contract/public/depth <br>
      *
      * {@link https://developer-pro.bitmart.com/en/futures/#get-market-depth}
-     * 
+     *
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @returns {JSON}
      */
     getDepth(symbol) {
-        validateRequiredParameters({ symbol })
+        validateRequiredParameters({symbol})
 
         return this.request(Auth.NONE, 'GET', '/contract/public/depth', {
             symbol: symbol
@@ -49,12 +49,12 @@ const FuturesMarket = superclass => class extends superclass {
      * GET /contract/public/open-interest <br>
      *
      * {@link https://developer-pro.bitmart.com/en/futures/#get-futures-openinterest}
-     * 
+     *
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @returns {JSON}
      */
     getOpenInterest(symbol) {
-        validateRequiredParameters({ symbol })
+        validateRequiredParameters({symbol})
 
         return this.request(Auth.NONE, 'GET', '/contract/public/open-interest', {
             symbol: symbol
@@ -64,13 +64,13 @@ const FuturesMarket = superclass => class extends superclass {
     /**
      * Get Current Funding Rate <br>
      * GET /contract/public/funding-rate <br>
-     * 
+     *
      * {@link https://developer-pro.bitmart.com/en/futures/#get-current-funding-rate}
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @returns {JSON}
      */
     getCurrentFundingRate(symbol) {
-        validateRequiredParameters({ symbol })
+        validateRequiredParameters({symbol})
 
         return this.request(Auth.NONE, 'GET', '/contract/public/funding-rate', {
             symbol: symbol
@@ -80,9 +80,9 @@ const FuturesMarket = superclass => class extends superclass {
     /**
      * Get K-line <br>
      * GET /contract/public/kline <br>
-     * 
+     *
      * {@link https://developer-pro.bitmart.com/en/futures/#get-k-line}
-     * 
+     *
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @param {Number} startTime - Start time. Timestamps need to be in seconds
      * @param {Number} endTime - End time. Timestamps need to be in seconds
@@ -97,6 +97,24 @@ const FuturesMarket = superclass => class extends superclass {
         }))
     }
 
+    /**
+     * Get Funding Rate History <br>
+     * GET /contract/public/funding-rate-history <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-funding-rate-history}
+     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param {Number} limit - Number of results per request. The maximum is 100; The default is 100
+     * @returns {JSON}
+     */
+    getFundingRateHistory(symbol, options = {}) {
+        validateRequiredParameters({symbol})
+
+        return this.request(Auth.NONE, 'GET', '/contract/public/funding-rate-history', Object.assign(options, {
+            symbol: symbol,
+        }))
+
+
+    }
 }
 
 module.exports = FuturesMarket
