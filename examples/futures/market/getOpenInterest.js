@@ -1,9 +1,10 @@
 'use strict'
 
-const BitmartFuturesAPI = require('../../../src/bitmartFuturesAPI')
-
-
-const bitmartFuturesAPI = new BitmartFuturesAPI()
+const BitMart = require('../../../src')
+const { logger } = require('../../config')
+const bitmartFuturesAPI = new BitMart.BitmartFuturesAPI({
+    logger: logger,
+})
 
 
 bitmartFuturesAPI.getOpenInterest('BTCUSDT')

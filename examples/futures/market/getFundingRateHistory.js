@@ -1,9 +1,11 @@
 'use strict'
 
+
 const BitMart = require('../../../src')
-
-
-const bitmartFuturesAPI = new BitMart.BitmartFuturesAPI()
+const { logger } = require('../../config')
+const bitmartFuturesAPI = new BitMart.BitmartFuturesAPI({
+    logger: logger,
+})
 
 
 bitmartFuturesAPI.getFundingRateHistory('BTCUSDT')

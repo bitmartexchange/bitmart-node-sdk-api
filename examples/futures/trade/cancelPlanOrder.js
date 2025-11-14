@@ -1,17 +1,13 @@
 'use strict'
 
 const BitmartFuturesAPI = require('../../../src/bitmartFuturesAPI')
-const {createDefaultLogger} = require("../../../src/lib/utils");
+const { yourApiKey, yourApiSecret, yourApiMemo, logger } = require('../../config')
 
-
-const yourApiKey = 'your api key'
-const yourApiSecret = 'your api secret'
-const yourApiMemo = 'your api memo'
 const bitmartFuturesAPI = new BitmartFuturesAPI({
     apiKey: yourApiKey,
     apiSecret: yourApiSecret,
     apiMemo: yourApiMemo,
-    logger: createDefaultLogger(true),
+    logger: logger,
 })
 
 bitmartFuturesAPI.cancelPlanOrder("ETHUSDT",{

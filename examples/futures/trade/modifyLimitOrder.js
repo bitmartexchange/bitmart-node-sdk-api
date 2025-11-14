@@ -1,17 +1,19 @@
 'use strict'
 
 const BitmartFuturesAPI = require('../../../src/bitmartFuturesAPI')
+const { yourApiKey, yourApiSecret, yourApiMemo, logger } = require('../../config')
 
-
-const { yourApiKey, yourApiSecret, yourApiMemo } = require('../../config')
 const bitmartFuturesAPI = new BitmartFuturesAPI({
     apiKey: yourApiKey,
     apiSecret: yourApiSecret,
     apiMemo: yourApiMemo,
+    logger: logger,
 })
 
-bitmartFuturesAPI.submitLeverage('BTCUSDT', 'cross', {
-    leverage: "1",
+bitmartFuturesAPI.modifyLimitOrder('BTCUSDT', {
+    order_id: 230628411614714,
+    price: '2100',
+    size: 10
 }).then(response => bitmartFuturesAPI.logger.log(response.data))
     .catch(error => {
         if (error.response) {

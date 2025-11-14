@@ -2,6 +2,35 @@ Changelog
 =========================
 
 
+
+### v2.4.0 Release
+#### New Features
+- New
+  - `/contract/public/markprice-kline` Get MarkPrice K-line
+  - `/contract/private/modify-limit-order` Applicable for modifying Futurs limit orders(SIGNED)
+  - `/contract/private/cancel-all-after` Applicable for canceling all Futurs orders timed(SIGNED)
+  - `/contract/private/get-position-mode` Get Position Mode (KEYED)
+  - `/contract/private/set-position-mode` Set Position Mode (SIGNED)
+  - `/contract/private/position-v2` Get Current Position V2 (KEYED)
+  - `/contract/public/leverage-bracket` Get Current Leverage Risk Limit
+  - `/contract/public/market-trade` Query the latest trade data
+
+- Update
+  - `/contract/private/submit-order` Placing Futurs orders(SIGNED): Add new request field **stp_mode**
+  - `/contract/private/transaction-history` Get Transaction History (KEYED): Add new request field **account**
+  - `/contract/private/trades` Get Order Trade (KEYED): Add new request field **account**, Request field symbol changed to optional
+  - `/contract/private/position-risk` Get Current Position Risk Details(KEYED): Add new request field **account**
+  - `/contract/private/position` Get Current Position (KEYED): Add new request field **account**
+  - `/contract/private/order-history` Get Order History (KEYED): Add new request field **account** , **order_id**, **client_order_id**
+  - `/contract/private/order` Get Order Detail (KEYED): Add new request field **account**
+
+
+
+
+---
+
+
+
 ### v2.3.0 Release
 #### New Features
 - New
