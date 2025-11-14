@@ -8,10 +8,9 @@ const bitmartFuturesAPI = new BitmartFuturesAPI({
 })
 
 
-bitmartFuturesAPI.getAllOpenOrders('ETHUSDT', {
-    type: 'limit',
-    order_state: 'all',
-    limit: 1
+bitmartFuturesAPI.getCurrentPositionV2({
+    symbol: 'ETHUSDT'
 })
   .then(response => bitmartFuturesAPI.logger.log(response.data))
   .catch(error => bitmartFuturesAPI.logger.log(error))
+

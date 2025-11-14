@@ -2,7 +2,7 @@
 
 const BitmartFuturesAPI = require('../../../src/bitmartFuturesAPI')
 
-const yourApiKey = 'your api key '
+const { yourApiKey } = require('../../config')
 const bitmartFuturesAPI = new BitmartFuturesAPI({
     apiKey: yourApiKey
 })

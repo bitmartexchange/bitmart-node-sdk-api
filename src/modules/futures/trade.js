@@ -43,6 +43,7 @@ const FuturesTrade = superclass => class extends superclass {
      * @param {Number} options.preset_stop_loss_price_type - Pre-set SL price type(1=last_price(default),2=fair_price)
      * @param {String} options.preset_take_profit_price - Pre-set TP price
      * @param {String} options.preset_stop_loss_price - Pre-set SL price
+     * @param {Number} options.stp_mode - Self-trade prevention mode
      * 
      * @returns {JSON} Object
      */
@@ -222,15 +223,16 @@ const FuturesTrade = superclass => class extends superclass {
      * 
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
      * @param {String} orderId - Order ID
+     * @param {String} options.account - Account type (futures or copy_trading)
      * @returns {JSON} Object
      */
-    getOrderDetail(symbol, orderId) {
+    getOrderDetail(symbol, orderId, options = {}) {
         validateRequiredParameters({ symbol, orderId })
 
-        return this.request(Auth.KEYED, 'GET', '/contract/private/order', {
+        return this.request(Auth.KEYED, 'GET', '/contract/private/order', Object.assign(options, {
             symbol: symbol,
             order_id: orderId
-        })
+        }))
     }
 
     /**
@@ -240,6 +242,9 @@ const FuturesTrade = superclass => class extends superclass {
      * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-order-history-keyed}
      * 
      * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param {String} options.account - Account type (futures or copy_trading)
+     * @param {String} options.order_id - Order ID
+     * @param {String} options.client_order_id - Client-defined OrderId
      * @param {Number} options.start_time - Start time, default is the last 7 days
      * @param {Number} options.end_time - End time, default is the last 7 days
      * @returns {JSON} Object
@@ -305,6 +310,7 @@ const FuturesTrade = superclass => class extends superclass {
      * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-current-position-keyed}
      * 
      * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
+     * @param {String} options.account - Account type (futures or copy_trading)
      * @returns {JSON} Object
      */
     getCurrentPosition(options = {}) {
@@ -319,6 +325,7 @@ const FuturesTrade = superclass => class extends superclass {
      * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-current-position-risk-details-keyed}
      * 
      * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
+     * @param {String} options.account - Account type (futures or copy_trading)
      * @returns {JSON} Object
      */
      getCurrentPositionRisk(options = {}) {
@@ -331,17 +338,14 @@ const FuturesTrade = superclass => class extends superclass {
      * 
      * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-order-trade-keyed}
      * 
-     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param {String} options.symbol - Symbol of the contract(like BTCUSDT), optional
+     * @param {String} options.account - Account type (futures or copy_trading)
      * @param {Number} options.start_time - Start time, default is the last 7 days
      * @param {Number} options.end_time - End time, default is the last 7 days
      * @returns {JSON} Object
      */
-    getOrderTrade(symbol, options = {}) {
-        validateRequiredParameters({ symbol })
-
-        return this.request(Auth.KEYED, 'GET', '/contract/private/trades', Object.assign(options, {
-            symbol: symbol
-        }))
+    getOrderTrade(options = {}) {
+        return this.request(Auth.KEYED, 'GET', '/contract/private/trades', Object.assign(options))
     }
 
     /**
@@ -351,6 +355,7 @@ const FuturesTrade = superclass => class extends superclass {
      * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-transaction-history-keyed}
      *
      * @param {String} options.symbol - Symbol of the contract
+     * @param {String} options.account - Account type (futures or copy_trading)
      * @param {Number} options.flow_type - Type
      *                                      - 0 = All (default)
      *                                      - 1 = Transfer
@@ -569,6 +574,89 @@ const FuturesTrade = superclass => class extends superclass {
         return this.request(Auth.SIGNED, 'POST', '/contract/private/cancel-trail-order', Object.assign(options, {
             symbol: symbol,
         }))
+    }
+
+    /**
+     * Modify Limit Order (SIGNED) <br>
+     * POST /contract/private/modify-limit-order <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#modify-limit-order-signed}
+     *
+     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param {String} options.order_id - Order ID
+     * @param {String} options.client_order_id - Client-defined OrderId(A combination of case-sensitive alphanumerics, all numbers, or all letters of up to 32 characters)
+     * @param {String} options.price - New order price
+     * @param {Number} options.size - New order size (Number of contracts)
+     * @returns {JSON} Object
+     */
+    modifyLimitOrder(symbol, options = {}) {
+        validateRequiredParameters({ symbol })
+
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/modify-limit-order', Object.assign(options, {
+            symbol: symbol
+        }))
+    }
+
+    /**
+     * Cancel All Orders Timed (SIGNED) <br>
+     * POST /contract/private/cancel-all-after <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#timed-cancel-all-orders-signed}
+     *
+     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param {Number} timeout - Timeout in seconds, 0 to cancel the timed cancel
+     * @returns {JSON} Object
+     */
+    cancelAllAfter(symbol, timeout) {
+        validateRequiredParameters({ symbol, timeout })
+
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/cancel-all-after', Object.assign(options, {
+            symbol: symbol,
+            timeout: timeout
+        }))
+    }
+
+    /**
+     * Get Position Mode (KEYED) <br>
+     * GET /contract/private/get-position-mode <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-position-mode-keyed}
+     *
+     * @returns {JSON} Object
+     */
+    getPositionMode() {
+        return this.request(Auth.KEYED, 'GET', '/contract/private/get-position-mode')
+    }
+
+    /**
+     * Set Position Mode (SIGNED) <br>
+     * POST /contract/private/set-position-mode <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#set-position-mode-signed}
+     *
+     * @param {String} position_mode - Position mode (one_way_mode or hedge_mode)
+     * @returns {JSON} Object
+     */
+    setPositionMode(position_mode) {
+        validateRequiredParameters({ position_mode })
+
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/set-position-mode', {
+            position_mode: position_mode
+        })
+    }
+
+    /**
+     * Get Current Position V2 (KEYED) <br>
+     * GET /contract/private/position-v2 <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-current-position-v2-keyed}
+     *
+     * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
+     * @param {String} options.account - Trading account
+     * @returns {JSON} Object
+     */
+    getCurrentPositionV2(options = {}) {
+        return this.request(Auth.KEYED, 'GET', '/contract/private/position-v2', Object.assign(options))
     }
 
 

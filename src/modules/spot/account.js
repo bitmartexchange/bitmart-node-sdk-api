@@ -14,6 +14,7 @@ const Account = superclass => class extends superclass {
    *
    * GET /account/v1/wallet <br>
    * @param {String} options.currency - currency
+   * @param {Boolean} options.needUsdValuation - Whether to return USD valuation
    * 
    * {@link https://developer-pro.bitmart.com/en/spot/#get-account-balance-keyed}
    */
@@ -22,14 +23,15 @@ const Account = superclass => class extends superclass {
   }
 
   /**
-   * Get Currencies <br>
+   * Get Account Currencies <br>
    * 
    * GET /account/v1/currencies
    * 
    * {@link https://developer-pro.bitmart.com/en/spot/#get-currencies}
+   * @param {String} options.currencies - Currency list, separated by commas (e.g. BTC,ETH,USDT)
    */
-  getCurrencies() {
-    return this.request(Auth.NONE, 'GET', '/account/v1/currencies')
+  getAccountCurrencies(options = {}) {
+    return this.request(Auth.NONE, 'GET', '/account/v1/currencies', Object.assign(options))
   }
 
   /**
@@ -112,6 +114,8 @@ const Account = superclass => class extends superclass {
    * @param {String} operationType - type (deposit/withdraw)
    * @param {String} N - Recent N records (value range 1-100)
    * @param {String} options.currency - Token symbol, e.g., 'BTC'
+   * @param {Number} options.startTime - Start time in milliseconds
+   * @param {Number} options.endTime - End time in milliseconds
    * {@link https://developer-pro.bitmart.com/en/spot/#get-deposit-and-withdraw-history-keyed}
    */
   getDepositAndWithdrawHistory(operationType, N, options = {}) {
@@ -197,6 +201,17 @@ const Account = superclass => class extends superclass {
     return this.request(Auth.KEYED, 'GET', '/spot/v1/trade_fee', {
       symbol: symbol
     })
+  }
+
+  /**
+   * Query Withdraw Address List (KEYED) <br>
+   * 
+   * GET /account/v1/withdraw/address/list <br>
+   * 
+   * {@link https://developer-pro.bitmart.com/en/spot/#query-withdraw-address-list-keyed}
+   */
+  getWithdrawAddressList(options = {}) {
+    return this.request(Auth.KEYED, 'GET', '/account/v1/withdraw/address/list', Object.assign(options))
   }
 
 

@@ -2,17 +2,16 @@
 
 const BitmartFuturesAPI = require('../../../src/bitmartFuturesAPI')
 
-
-const { yourApiKey, yourApiSecret, yourApiMemo } = require('../../config')
+const { yourApiKey, yourApiSecret, yourApiMemo, logger } = require('../../config')
 const bitmartFuturesAPI = new BitmartFuturesAPI({
     apiKey: yourApiKey,
     apiSecret: yourApiSecret,
     apiMemo: yourApiMemo,
+    logger: logger,
 })
 
-bitmartFuturesAPI.submitLeverage('BTCUSDT', 'cross', {
-    leverage: "1",
-}).then(response => bitmartFuturesAPI.logger.log(response.data))
+bitmartFuturesAPI.cancelAllAfter('ETHUSDT', 60)
+    .then(response => bitmartFuturesAPI.logger.log(response.data))
     .catch(error => {
         if (error.response) {
             bitmartFuturesAPI.logger.log(error.response.data);

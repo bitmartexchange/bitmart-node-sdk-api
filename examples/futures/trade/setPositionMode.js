@@ -2,7 +2,6 @@
 
 const BitmartFuturesAPI = require('../../../src/bitmartFuturesAPI')
 
-
 const { yourApiKey, yourApiSecret, yourApiMemo } = require('../../config')
 const bitmartFuturesAPI = new BitmartFuturesAPI({
     apiKey: yourApiKey,
@@ -10,9 +9,8 @@ const bitmartFuturesAPI = new BitmartFuturesAPI({
     apiMemo: yourApiMemo,
 })
 
-bitmartFuturesAPI.submitLeverage('BTCUSDT', 'cross', {
-    leverage: "1",
-}).then(response => bitmartFuturesAPI.logger.log(response.data))
+bitmartFuturesAPI.setPositionMode('one_way_mode')
+    .then(response => bitmartFuturesAPI.logger.log(response.data))
     .catch(error => {
         if (error.response) {
             bitmartFuturesAPI.logger.log(error.response.data);

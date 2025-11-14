@@ -2,7 +2,7 @@
 
 const BitmartFuturesAPI = require('../../../src/bitmartFuturesAPI')
 
-const yourApiKey = 'your api key'
+const { yourApiKey } = require('../../config')
 const bitmartFuturesAPI = new BitmartFuturesAPI({
   apiKey: yourApiKey,
 })
@@ -10,6 +10,7 @@ const bitmartFuturesAPI = new BitmartFuturesAPI({
 
 bitmartFuturesAPI.getTransactionHistory({
     symbol: 'BTCUSDT',
+    account: 'futures',
 })
   .then(response => bitmartFuturesAPI.logger.log(response.data))
   .catch(error => bitmartFuturesAPI.logger.log(error))

@@ -1,15 +1,12 @@
 'use strict'
 
-const BitmartSpotAPI = require('../../../src/bitmartSpotAPI')
-
-
-const yourApiKey = 'your api key'
-const yourApiSecret = 'your api secret'
-const yourApiMemo = 'your api memo'
-const bitmartSpotAPI = new BitmartSpotAPI({
-    apiKey: yourApiKey,
-    apiSecret: yourApiSecret,
-    apiMemo: yourApiMemo,
+const BitMart = require('../../../src')
+const { yourApiKey, yourApiSecret, yourApiMemo, logger } = require('../../config')
+const bitmartSpotAPI = new BitMart.BitmartSpotAPI({
+  apiKey: yourApiKey,
+  apiSecret: yourApiSecret,
+  apiMemo: yourApiMemo,
+  logger: logger,
 })
 
 const params = [{
@@ -17,7 +14,8 @@ const params = [{
     "price": "8800",
     "side": "buy",
     "type": "limit",
-    "clientOrderId":"xxdfs23e232"
+    "clientOrderId":"xxdfs23e232",
+    "stpMode": "cancel_maker"
 }, {
     "size": "0.1",
     "price": "8800",

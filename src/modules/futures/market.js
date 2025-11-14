@@ -115,6 +115,59 @@ const FuturesMarket = superclass => class extends superclass {
 
 
     }
+
+    /**
+     * Get MarkPrice K-line <br>
+     * GET /contract/public/markprice-kline <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-markprice-k-line}
+     *
+     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param {Number} startTime - Start time. Timestamps need to be in seconds
+     * @param {Number} endTime - End time. Timestamps need to be in seconds
+     * @param {Number} options.step - K-Line step, default is 1 minute. step: 1, 3, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080
+     * @returns {JSON}
+     */
+    getMarkPriceKline(symbol, startTime, endTime, options = {}) {
+        validateRequiredParameters({symbol, startTime, endTime})
+
+        return this.request(Auth.NONE, 'GET', '/contract/public/markprice-kline', Object.assign(options, {
+            symbol: symbol,
+            start_time: startTime,
+            end_time: endTime
+        }))
+    }
+
+    /**
+     * Get Current Leverage Risk Limit <br>
+     * GET /contract/public/leverage-bracket <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-current-leverage-risk-limit}
+     *
+     * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
+     * @returns {JSON}
+     */
+    getLeverageBracket(options = {}) {
+        return this.request(Auth.NONE, 'GET', '/contract/public/leverage-bracket', Object.assign(options))
+    }
+
+    /**
+     * Query the latest trade data <br>
+     * GET /contract/public/market-trade <br>
+     *
+     * {@link https://developer-pro.bitmart.com/en/futuresv2/#get-market-trade}
+     *
+     * @param {String} symbol - Symbol of the contract(like BTCUSDT)
+     * @param {Number} options.limit - Number of results per request. The maximum is 100; The default is 100
+     * @returns {JSON}
+     */
+    getMarketTrade(symbol, options = {}) {
+        validateRequiredParameters({symbol})
+
+        return this.request(Auth.NONE, 'GET', '/contract/public/market-trade', Object.assign(options, {
+            symbol: symbol
+        }))
+    }
 }
 
 module.exports = FuturesMarket

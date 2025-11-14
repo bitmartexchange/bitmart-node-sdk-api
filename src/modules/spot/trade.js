@@ -23,6 +23,7 @@ const Trade = superclass => class extends superclass {
      * @param {String} options.size : Order size
      * @param {String} options.price : Order Price | Quantity sold, required when selling at market price size
      * @param {String} options.notional : Quantity bought, required when buying at market price notional
+     * @param {String} options.stpMode - Self-trade prevention mode
      * @returns {JSON} Object
      */
     newSpotOrder(symbol, side, type, options = {}) {
