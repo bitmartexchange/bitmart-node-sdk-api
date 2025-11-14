@@ -1,13 +1,13 @@
 'use strict'
 
-const BitmartSpotAPI = require('../../../src/bitmartSpotAPI')
-
-const yourApiKey = 'your api key'
-const bitmartSpotAPI = new BitmartSpotAPI({
-  apiKey: yourApiKey
+const BitMart = require('../../../src')
+const { yourApiKey, logger } = require('../../config')
+const bitmartSpotAPI = new BitMart.BitmartSpotAPI({
+  apiKey: yourApiKey,
+  logger: logger,
 })
 
 
-bitmartSpotAPI.getDepositAddress("USDT-TRC20")
+bitmartSpotAPI.getDepositAddress("USDT-ETH")
   .then(response => bitmartSpotAPI.logger.log(response.data))
   .catch(error => bitmartSpotAPI.logger.log(error))

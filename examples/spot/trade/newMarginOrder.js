@@ -1,15 +1,12 @@
 'use strict'
 
-const BitmartSpotAPI = require('../../../src/bitmartSpotAPI')
-
-
-const yourApiKey = 'your api key'
-const yourApiSecret = 'your api secret'
-const yourApiMemo = 'your api memo'
-const bitmartSpotAPI = new BitmartSpotAPI({
-    apiKey: yourApiKey,
-    apiSecret: yourApiSecret,
-    apiMemo: yourApiMemo,
+const BitMart = require('../../../src')
+const { yourApiKey, yourApiSecret, yourApiMemo, logger } = require('../../config')
+const bitmartSpotAPI = new BitMart.BitmartSpotAPI({
+  apiKey: yourApiKey,
+  apiSecret: yourApiSecret,
+  apiMemo: yourApiMemo,
+  logger: logger,
 })
 
 bitmartSpotAPI.newMarginOrder('BTC_USDT', 'sell', 'limit', {

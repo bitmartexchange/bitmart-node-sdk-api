@@ -14,6 +14,7 @@ Changelog
   - `/contract/private/position-v2` Get Current Position V2 (KEYED)
   - `/contract/public/leverage-bracket` Get Current Leverage Risk Limit
   - `/contract/public/market-trade` Query the latest trade data
+  - `/account/v1/withdraw/address/list` Query Withdraw Address List (KEYED)
 
 - Update
   - `/contract/private/submit-order` Placing Futurs orders(SIGNED): Add new request field **stp_mode**
@@ -23,6 +24,11 @@ Changelog
   - `/contract/private/position` Get Current Position (KEYED): Add new request field **account**
   - `/contract/private/order-history` Get Order History (KEYED): Add new request field **account** , **order_id**, **client_order_id**
   - `/contract/private/order` Get Order Detail (KEYED): Add new request field **account**
+  - `/account/v1/currencies` Get Currencies: Add new request field **currencies**
+  - `/account/v1/wallet` Get Account Balance (KEYED): Add new request field **needUsdValuation**
+  - `/account/v2/deposit-withdraw/history` Get Deposit And Withdraw History (KEYED): Add new request field **startTime**, **endTime**
+  - `/spot/v4/batch_orders` New Batch Order(v4) (SIGNED): Add new request field **stpMode**
+  - `/spot/v2/submit_order` New Order(v2) (SIGNED): Add new request field **stpMode**
 
 
 

@@ -1,13 +1,16 @@
 'use strict'
 
+const BitmartSpotAPI = require('../../../src/bitmartSpotAPI')
+
 const BitMart = require('../../../src')
-const { logger } = require('../../config')
+const { yourApiKey, logger } = require('../../config')
 const bitmartSpotAPI = new BitMart.BitmartSpotAPI({
-    logger: logger,
+  apiKey: yourApiKey,
+  logger: logger,
 })
 
-bitmartSpotAPI.getCurrencies()
+
+bitmartSpotAPI.getWithdrawAddressList()
   .then(response => bitmartSpotAPI.logger.log(response.data))
   .catch(error => bitmartSpotAPI.logger.log(error))
-
 
