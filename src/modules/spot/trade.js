@@ -301,6 +301,181 @@ const Trade = superclass => class extends superclass {
             })
         )
     }
+
+    /**
+     * New Algo Order(v4) (SIGNED) <br>
+     * POST /spot/v4/algo/submit_order <br>
+     *
+     * {@link https://developer.bitmart.com/spot/spot-trading/algo-submit}
+     *
+     * @param {String} symbol - Trading pair (e.g. BTC_USDT)
+     * @param {String} side - Side (buy/sell)
+     * @param {String} type - Order type (tp/sl=one-way take-profit/stop-loss, trigger=plan order)
+     * @param {String} options.client_order_id - Client-defined OrderId(A combination of numbers and letters, less than 32 bits)
+     * @param {String} options.trigger_price - Trigger price (also requires the take-profit order price when set)
+     * @param {String} options.trigger_type - Trigger type (Limit/Market)
+     * @param {String} options.price - Order price (also requires the take-profit trigger price when set)
+     * @param {String} options.notional - Special parameter for market buy order (type=market, side=buy)
+     * @param {String} options.size - Special parameter for market sell order and limit order
+     * @returns {JSON} Object
+     */
+    newSpotAlgoOrder(symbol, side, type, options = {}) {
+        validateRequiredParameters({ symbol, side, type })
+
+        return this.request(
+            Auth.SIGNED,
+            'POST',
+            '/spot/v4/algo/submit_order',
+            Object.assign(options, {
+                symbol: symbol,
+                side: side,
+                type: type
+            })
+        )
+    }
+
+    /**
+     * Cancel Algo Order(v4) (SIGNED) <br>
+     * POST /spot/v4/algo/cancel_order <br>
+     *
+     * {@link https://developer.bitmart.com/spot/spot-trading/algo-cancel}
+     *
+     * @param {String} symbol - Trading pair (e.g. BMX_USDT)
+     * @param {String} order_id - Order ID
+     * @param {String} type - Order type (tp/sl=one-way take-profit/stop-loss, trigger=plan order)
+     * @returns {JSON} Object
+     */
+    cancelSpotAlgoOrder(symbol, order_id, type, options = {}) {
+        validateRequiredParameters({ symbol, order_id, type })
+
+        return this.request(
+            Auth.SIGNED,
+            'POST',
+            '/spot/v4/algo/cancel_order',
+            Object.assign(options, {
+                symbol: symbol,
+                order_id: order_id,
+                type: type
+            })
+        )
+    }
+
+    /**
+     * Cancel All Algo Order(v4) (SIGNED) <br>
+     * POST /spot/v4/algo/cancel_all <br>
+     *
+     * {@link https://developer.bitmart.com/spot/spot-trading/algo-cancel-all}
+     *
+     * @param {String} type - Order type (tp/sl=one-way take-profit/stop-loss, trigger=plan order)
+     * @param {String} options.symbol - Trading pair (e.g. BTC_USDT)
+     * @returns {JSON} Object
+     */
+    cancelSpotAlgoAllOrder(type, options = {}) {
+        validateRequiredParameters({ type })
+
+        return this.request(
+            Auth.SIGNED,
+            'POST',
+            '/spot/v4/algo/cancel_all',
+            Object.assign(options, {
+                type: type
+            })
+        )
+    }
+
+    /**
+     * Query Algo Order By Id(v4) (SIGNED) <br>
+     * POST /spot/v4/query/algo/order <br>
+     *
+     * {@link https://developer.bitmart.com/spot/spot-trading/algo-query-order}
+     *
+     * @param {String} orderId - Order id
+     * @param {String} options.queryState - Query Type (open/history)
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @returns {JSON} Object
+     */
+    querySpotAlgoOrderById(orderId, options = {}) {
+        validateRequiredParameters({ orderId })
+
+        return this.request(
+            Auth.SIGNED,
+            'POST',
+            '/spot/v4/query/algo/order',
+            Object.assign(options, {
+                orderId: orderId
+            })
+        )
+    }
+
+    /**
+     * Query Algo Order By ClientOrderId(v4) (SIGNED) <br>
+     * POST /spot/v4/query/algo/client-order <br>
+     *
+     * {@link https://developer.bitmart.com/spot/spot-trading/algo-query-client}
+     *
+     * @param {String} clientOrderId - User-defined order id
+     * @param {String} options.queryState - Query Type (open/history)
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @returns {JSON} Object
+     */
+    querySpotAlgoOrderByClientOrderId(clientOrderId, options = {}) {
+        validateRequiredParameters({ clientOrderId })
+
+        return this.request(
+            Auth.SIGNED,
+            'POST',
+            '/spot/v4/query/algo/client-order',
+            Object.assign(options, {
+                clientOrderId: clientOrderId
+            })
+        )
+    }
+
+    /**
+     * Current Algo Open Orders(v4) (SIGNED) <br>
+     * POST /spot/v4/query/algo/open-orders <br>
+     *
+     * {@link https://developer.bitmart.com/spot/spot-trading/algo-open-orders}
+     *
+     * @param {String} options.symbol - Trading pair (e.g. BTC_USDT)
+     * @param {String} options.orderMode - Order mode (trigger/tp_sl)
+     * @param {Number} options.startTime - Start time in milliseconds, (e.g. 1681701557927)
+     * @param {Number} options.endTime - End time in milliseconds, (e.g. 1681701557927)
+     * @param {Number} options.limit - Number of queries, allowed range [1,200], default 200
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @returns {JSON} Object
+     */
+    querySpotAlgoCurrentOpenOrder(options = {}) {
+        return this.request(
+            Auth.SIGNED,
+            'POST',
+            '/spot/v4/query/algo/open-orders',
+            Object.assign(options)
+        )
+    }
+
+    /**
+     * Algo History Orders(v4) (SIGNED) <br>
+     * POST /spot/v4/query/algo/history-orders <br>
+     *
+     * {@link https://developer.bitmart.com/spot/spot-trading/algo-history}
+     *
+     * @param {String} options.symbol - Trading pair (e.g. BTC_USDT)
+     * @param {String} options.orderMode - Order mode (trigger/tp_sl)
+     * @param {Number} options.startTime - Start time in milliseconds, (e.g. 1681701557927)
+     * @param {Number} options.endTime - End time in milliseconds, (e.g. 1681701557927)
+     * @param {Number} options.limit - Number of queries, allowed range [1,200], default 200
+     * @param {Number} options.recvWindow - Trade time limit, allowed range (0,60000], default: 5000 milliseconds
+     * @returns {JSON} Object
+     */
+    querySpotAlgoHistoryOrders(options = {}) {
+        return this.request(
+            Auth.SIGNED,
+            'POST',
+            '/spot/v4/query/algo/history-orders',
+            Object.assign(options)
+        )
+    }
 }
 
 module.exports = Trade

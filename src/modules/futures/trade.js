@@ -342,6 +342,8 @@ const FuturesTrade = superclass => class extends superclass {
      * @param {String} options.account - Account type (futures or copy_trading)
      * @param {Number} options.start_time - Start time, default is the last 7 days
      * @param {Number} options.end_time - End time, default is the last 7 days
+     * @param {Number} options.order_id - Order ID
+     * @param {String} options.client_order_id - Client-defined Order ID
      * @returns {JSON} Object
      */
     getOrderTrade(options = {}) {
@@ -657,6 +659,55 @@ const FuturesTrade = superclass => class extends superclass {
      */
     getCurrentPositionV2(options = {}) {
         return this.request(Auth.KEYED, 'GET', '/contract/private/position-v2', Object.assign(options))
+    }
+
+    /**
+     * Get Auto Repayment Record (KEYED) <br>
+     * GET /contract/private/auto_repayment <br>
+     *
+     * {@link https://developer.bitmart.com/futures/futures-trading/auto-repayment}
+     *
+     * @param {Number} options.start_time - Start time (timestamp in seconds)
+     * @param {Number} options.end_time - End time (timestamp in seconds)
+     * @param {Number} options.page - Current page
+     * @param {Number} options.size - Query size
+     * @param {String} options.from_coin_code - Repayment currency
+     * @param {String} options.type - Repayment type (e.g. AUTO_REPAY)
+     * @returns {JSON} Object
+     */
+    getAutoRepayment(options = {}) {
+        return this.request(Auth.KEYED, 'GET', '/contract/private/auto_repayment', Object.assign(options))
+    }
+
+    /**
+     * Get Cross Collateral Interest Log (KEYED) <br>
+     * GET /contract/private/cross_collateral/interest_log <br>
+     *
+     * {@link https://developer.bitmart.com/futures/futures-trading/cross-collateral-interest-log}
+     *
+     * @param {Number} options.start_time - Start time (timestamp in seconds)
+     * @param {Number} options.end_time - End time (timestamp in seconds)
+     * @param {Number} options.page - Current page
+     * @param {Number} options.size - Query size
+     * @param {String} options.coin_code - Currency
+     * @returns {JSON} Object
+     */
+    getCrossCollateralInterestLog(options = {}) {
+        return this.request(Auth.KEYED, 'GET', '/contract/private/cross_collateral/interest_log', Object.assign(options))
+    }
+
+    /**
+     * Claim (SIGNED) <br>
+     * POST /contract/private/claim <br>
+     *
+     * Recharge available funds to the futures account (only supported on the demo trading environment). <br>
+     *
+     * {@link https://developer.bitmart.com/futures/futures-sim/claim}
+     *
+     * @returns {JSON} Object
+     */
+    claim() {
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/claim')
     }
 
 
