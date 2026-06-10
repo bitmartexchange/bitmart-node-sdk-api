@@ -6,3 +6,4 @@ report.json
 .vscode
 logs
 .idea
+.env

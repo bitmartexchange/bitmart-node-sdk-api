@@ -3,6 +3,42 @@ Changelog
 
 
 
+### v2.5.0 Release
+#### New Features
+- New
+  - `/spot/v4/algo/submit_order` New Algo Order(v4) (SIGNED)
+  - `/spot/v4/algo/cancel_order` Cancel Algo Order(v4) (SIGNED)
+  - `/spot/v4/algo/cancel_all` Cancel All Algo Order(v4) (SIGNED)
+  - `/spot/v4/query/algo/order` Query Algo Order By Id(v4) (SIGNED)
+  - `/spot/v4/query/algo/client-order` Query Algo Order By ClientOrderId(v4) (SIGNED)
+  - `/spot/v4/query/algo/open-orders` Current Algo Open Orders(v4) (SIGNED)
+  - `/spot/v4/query/algo/history-orders` Algo History Orders(v4) (SIGNED)
+  - `/contract/public/funding-rate-v2` Get Current Funding Rate v2
+  - `/contract/private/auto_repayment` Get Auto Repayment Record (KEYED)
+  - `/contract/private/cross_collateral/interest_log` Get Cross Collateral Interest Log (KEYED)
+  - `/contract/private/claim` Claim (SIGNED)
+  - `/contract/private/affiliate/rebate-inviteUser` Get Rebate Invite User List (KEYED)
+  - `/contract/private/affiliate/deposit-withdrawal-list` Get Invited User Deposit & Withdrawal List (KEYED)
+  - `/contract/private/affiliate/aff-customer-info` Get Invited User Futures Account Info (KEYED)
+  - `/contract/private/affiliate/invite-check` Invite Check (KEYED)
+  - `/contract/private/affiliate/rebate-user` Get Single User Rebate (KEYED)
+  - `/contract/private/affiliate/rebate-api` Get Single API User Rebate (KEYED)
+  - `/contract/private/affiliate/rebate-list` Get Rebate List (KEYED)
+  - `/contract/private/affiliate/trade-list` Get Trade List (KEYED)
+
+- Update
+  - `/contract/private/trades` Get Order Trade (KEYED): Add new request field **order_id**, **client_order_id**
+
+#### Improvements
+- `examples/config.js` now loads credentials and the REST API URL from a project-root `.env` file (zero-dependency).
+  Resolution priority: `.env` file > `process.env` > placeholder defaults.
+  Supported keys: **BITMART_API_KEY**, **BITMART_SECRET_KEY**, **BITMART_MEMO**, **BITMART_API_URL**.
+  `.env` is git-ignored; see `.env.example` for the template.
+
+---
+
+
+
 ### v2.4.0 Release
 #### New Features
 - New

@@ -78,6 +78,18 @@ const FuturesMarket = superclass => class extends superclass {
     }
 
     /**
+     * Get Current Funding Rate v2 <br>
+     * GET /contract/public/funding-rate-v2 <br>
+     *
+     * {@link https://developer.bitmart.com/futures/futures-market/funding-rate-v2}
+     * @param {String} options.symbol - Symbol of the contract(like BTCUSDT)
+     * @returns {JSON}
+     */
+    getCurrentFundingRateV2(options = {}) {
+        return this.request(Auth.NONE, 'GET', '/contract/public/funding-rate-v2', Object.assign(options))
+    }
+
+    /**
      * Get K-line <br>
      * GET /contract/public/kline <br>
      *
