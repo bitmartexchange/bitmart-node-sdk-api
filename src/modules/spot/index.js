@@ -5,5 +5,6 @@ module.exports.Market = require('./market')
 module.exports.Account = require('./account')
 module.exports.Trade = require('./trade')
 module.exports.Margin = require('./margin')
+module.exports.SubAccount = require('./subAccount')
 
 
