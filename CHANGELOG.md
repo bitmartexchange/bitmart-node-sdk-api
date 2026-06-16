@@ -3,6 +3,35 @@ Changelog
 
 
 
+### v2.7.0 Release
+#### New Features
+- New `BitmartFinanceAPI` class for the Finance (Earn) endpoints (base URL `https://api-cloud.bitmart.com`)
+- New
+  - Finance Assets
+    - `/newearn/cloud/v1/earn` Get Savings Holdings (KEYED)
+  - Finance Flexible Savings
+    - `/newearn/cloud/v1/saving/product` Get Flexible Savings Product List (KEYED)
+    - `/newearn/cloud/v1/saving/subscribe` Flexible Savings Subscribe (SIGNED)
+    - `/newearn/cloud/v1/saving/redeem` Flexible Savings Redeem (SIGNED)
+    - `/newearn/cloud/v1/saving/earn` Get Flexible Savings Holdings (KEYED)
+    - `/newearn/cloud/v1/saving/record` Get Flexible Savings History Records (KEYED)
+  - Finance Fixed Savings
+    - `/newearn/cloud/v1/saving/fixed/product` Get Fixed Savings Product List (KEYED)
+    - `/newearn/cloud/v1/saving/fixed/subscribe` Fixed Savings Subscribe (SIGNED)
+    - `/newearn/cloud/v1/saving/fixed/earn` Get Fixed Savings Holdings (KEYED)
+    - `/newearn/cloud/v1/saving/fixed/record` Get Fixed Savings History Records (KEYED)
+    - `/newearn/cloud/v1/saving/fixed/redeem` Fixed Savings Early Redeem (SIGNED)
+    - `/newearn/cloud/v1/saving/fixed/subscribe/operate` Modify Fixed Savings Auto-Renewal (SIGNED)
+  - Finance Auto-Invest
+    - `/newearn/cloud/v1/saving/subscribe/batch/operate` Toggle Auto-Invest (SIGNED)
+    - `/newearn/cloud/v1/saving/subscribe/batch` Get Auto-Invest Status (KEYED)
+    - `/newearn/cloud/v1/saving/subscribe/operate` Toggle Flexible Savings Auto-Subscribe (SIGNED)
+    - `/newearn/cloud/v1/saving/subscribe/status` Get Flexible Savings Auto-Subscribe Status (KEYED)
+
+---
+
+
+
 ### v2.6.0 Release
 #### New Features
 - New
