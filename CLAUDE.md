@@ -39,12 +39,13 @@ Examples under `examples/` are the de-facto manual test harness. To run a privat
 
 ### Entry points (`src/index.js`)
 
-Four public classes are exported:
+Five public classes are exported:
 
 | Export | Class | Purpose | Default base URL |
 | --- | --- | --- | --- |
 | `BitmartSpotAPI` | `src/bitmartSpotAPI.js` | Spot/Margin REST | `https://api-cloud.bitmart.com` |
 | `BitmartFuturesAPI` | `src/bitmartFuturesAPI.js` | Futures REST | `https://api-cloud-v2.bitmart.com` |
+| `BitmartFinanceAPI` | `src/bitmartFinanceAPI.js` | Finance/Earn REST | `https://api-cloud.bitmart.com` |
 | `BitmartSpotWebsocket` | `src/bitmartSpotWebsocket.js` | Spot WebSocket | (pass `wsURL`) |
 | `BitmartFuturesWebsocket` | `src/bitmartFuturesWebsocket.js` | Futures WebSocket | (pass `wsURL`) |
 
@@ -58,7 +59,8 @@ Four public classes are exported:
   - delegates to `createRequest` (axios) and returns the axios Promise.
 - **REST API classes are composed from mixins via `flowRight`** (see `src/lib/utils.js`).
   `BitmartSpotAPI` mixes every module in `src/modules/spot/` onto `CloudApiClient`;
-  `BitmartFuturesAPI` mixes every module in `src/modules/futures/`. Each module is a
+  `BitmartFuturesAPI` mixes every module in `src/modules/futures/`;
+  `BitmartFinanceAPI` mixes every module in `src/modules/finance/`. Each module is a
   function `superclass => class extends superclass { ... }`, so all endpoint methods
   end up as instance methods on one flat API object.
 
@@ -67,16 +69,24 @@ Four public classes are exported:
 REST endpoints live in `src/modules/`, grouped by product and category. Each file
 registers its mixin in the sibling `index.js`:
 
-- **Spot** (`src/modules/spot/index.js`): `System`, `Market`, `Account`, `Trade`, `Margin`
+- **Spot** (`src/modules/spot/index.js`): `System`, `Market`, `Account`, `Trade`, `Margin`, `SubAccount`
   - `system.js` — system status/time
   - `market.js` — public market data (currencies, symbols, V3 tickers/klines/depth/trades)
   - `account.js` — wallet, deposit/withdraw, fees, margin transfer
-  - `trade.js` — spot & margin orders (submit/cancel/query, batch v4)
+  - `trade.js` — spot & margin orders (submit/cancel/query, batch v4, algo orders)
   - `margin.js` — isolated margin borrow/repay
-- **Futures** (`src/modules/futures/index.js`): `FuturesMarket`, `FuturesAccount`, `FuturesTrade`
-  - `market.js` — contract details, depth, klines, funding rate, open interest, leverage bracket
+  - `subAccount.js` — spot sub-account transfers, balances, list
+- **Futures** (`src/modules/futures/index.js`): `FuturesMarket`, `FuturesAccount`, `FuturesTrade`, `FuturesAffiliate`, `FuturesSubAccount`
+  - `market.js` — contract details, depth, klines, funding rate(+v2), open interest, leverage bracket
   - `account.js` — futures assets
-  - `trade.js` — futures orders incl. plan/TP-SL/trailing orders, leverage, position mode, transfers
+  - `trade.js` — futures orders incl. plan/TP-SL/trailing orders, leverage, position mode, transfers, auto-repayment, interest log, claim
+  - `affiliate.js` — affiliate/agent rebate & invited-user queries
+  - `subAccount.js` — contract sub-account transfers, balances (served from `api-cloud.bitmart.com`)
+- **Finance** (`src/modules/finance/index.js`): `FinanceAssets`, `FinanceSavings`, `FinanceFixed`, `FinanceAuto`
+  - `assets.js` — savings holdings
+  - `savings.js` — flexible savings (product/subscribe/redeem/holdings/records)
+  - `fixed.js` — fixed savings (product/subscribe/holdings/records/early-redeem/auto-renewal)
+  - `auto.js` — auto-invest toggles & status
 
 ### WebSocket layer
 
