@@ -96,6 +96,7 @@ const Account = superclass => class extends superclass {
    * @param {String} options.type - Account type(1=CID,2=Email,3=Phone)
    * @param {String} options.value - Account 
    * @param {String} options.areaCode - Phone area code, required when account type is phone, e.g.: 61
+   * @param {String} options.sourceAccount - Withdraw source account (SPOT/FUND). If omitted, balance is drawn from spot then fund account.
    * {@link https://developer-pro.bitmart.com/en/spot/#withdraw-signed}
    */
   withdraw(currency, amount, options = {}) {
@@ -212,6 +213,62 @@ const Account = superclass => class extends superclass {
    */
   getWithdrawAddressList(options = {}) {
     return this.request(Auth.KEYED, 'GET', '/account/v1/withdraw/address/list', Object.assign(options))
+  }
+
+  /**
+   * Get Deposit Account (KEYED) <br>
+   *
+   * GET /account/v1/get-deposit-account <br>
+   *
+   * {@link https://developer.bitmart.com/spot/spot-funding/get-deposit-account}
+   *
+   * @returns {JSON} Object
+   */
+  getDepositAccount(options = {}) {
+    return this.request(Auth.KEYED, 'GET', '/account/v1/get-deposit-account', Object.assign(options))
+  }
+
+  /**
+   * Set Deposit Account (SIGNED) <br>
+   *
+   * POST /account/v1/set-deposit-account <br>
+   *
+   * {@link https://developer.bitmart.com/spot/spot-funding/account-set-deposit}
+   *
+   * @param {String} options.account_type - Deposit account type (SPOT/CONTRACT/FUND)
+   * @returns {JSON} Object
+   */
+  setDepositAccount(options = {}) {
+    return this.request(Auth.SIGNED, 'POST', '/account/v1/set-deposit-account', Object.assign(options))
+  }
+
+  /**
+   * Account Transfer (SIGNED) <br>
+   *
+   * POST /account/v1/transfer <br>
+   *
+   * {@link https://developer.bitmart.com/spot/spot-funding/account-transfer}
+   *
+   * @param {String} options.currency - Currency (e.g. USDT)
+   * @param {String} options.amount - Transfer amount
+   * @param {String} options.type - Transfer direction (spot_to_fund/fund_to_spot)
+   * @returns {JSON} Object
+   */
+  accountTransfer(options = {}) {
+    return this.request(Auth.SIGNED, 'POST', '/account/v1/transfer', Object.assign(options))
+  }
+
+  /**
+   * Get Account Info (KEYED) <br>
+   *
+   * GET /uapi-key/v1/account/info <br>
+   *
+   * {@link https://developer.bitmart.com/spot/uapi-key/account-info}
+   *
+   * @returns {JSON} Object
+   */
+  getAccountInfo(options = {}) {
+    return this.request(Auth.KEYED, 'GET', '/uapi-key/v1/account/info', Object.assign(options))
   }
 
 
