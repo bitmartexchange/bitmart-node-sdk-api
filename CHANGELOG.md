@@ -3,6 +3,23 @@ Changelog
 
 
 
+### v2.8.0 Release
+#### New Features
+- New
+  - `/account/v1/get-deposit-account` Get Deposit Account (KEYED)
+  - `/account/v1/set-deposit-account` Set Deposit Account (SIGNED)
+  - `/account/v1/transfer` Account Transfer (SIGNED)
+  - `/uapi-key/v1/account/info` Get Account Info (KEYED)
+  - `/contract/private/close-all-position` Close All Position (SIGNED)
+  - `/contract/private/account/v1/transfer` Account Transfer (SIGNED)
+
+- Update
+  - `/account/v1/withdraw/apply` Withdraw (SIGNED): Add new request field **sourceAccount**
+
+---
+
+
+
 ### v2.7.0 Release
 #### New Features
 - New `BitmartFinanceAPI` class for the Finance (Earn) endpoints (base URL `https://api-cloud.bitmart.com`)

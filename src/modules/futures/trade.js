@@ -710,6 +710,45 @@ const FuturesTrade = superclass => class extends superclass {
         return this.request(Auth.SIGNED, 'POST', '/contract/private/claim')
     }
 
+    /**
+     * Close All Position (SIGNED) <br>
+     * POST /contract/private/close-all-position <br>
+     *
+     * {@link https://developer.bitmart.com/futures/futures-trading/close-all-position}
+     *
+     * @param {Number} contractType - Contract type (1=USDT-FUTURES, 2=COIN-FUTURES)
+     * @param {String} options.symbol - Symbol of the contract (like BTCUSDT); if omitted, closes all symbols
+     * @param {String} options.position_side - Position side (long/short); if omitted, closes both sides
+     * @returns {JSON} Object
+     */
+    closeAllPosition(contractType, options = {}) {
+        validateRequiredParameters({ contractType })
+
+        return this.request(
+            Auth.SIGNED,
+            'POST',
+            '/contract/private/close-all-position',
+            Object.assign(options, {
+                contractType: contractType
+            })
+        )
+    }
+
+    /**
+     * Account Transfer (SIGNED) <br>
+     * POST /contract/private/account/v1/transfer <br>
+     *
+     * {@link https://developer.bitmart.com/futures/futures-trading/account-transfer}
+     *
+     * @param {String} options.currency - Currency (e.g. USDT)
+     * @param {String} options.amount - Transfer amount
+     * @param {String} options.type - Transfer direction (fund_to_contract/contract_to_fund)
+     * @returns {JSON} Object
+     */
+    accountTransfer(options = {}) {
+        return this.request(Auth.SIGNED, 'POST', '/contract/private/account/v1/transfer', Object.assign(options))
+    }
+
 
 }
 
